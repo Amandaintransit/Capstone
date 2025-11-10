@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KentuckyChildSupportEstimator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Kentucky Child Support Estimator</h1>
+
+    <form action="custodianInformation.html" method="GET">
+
+        <section class="custodian-identifiers" id="custodianIdentifiers">
+            <div>
+                <label for="custodianA" id="">Enter your name</label> 
+            <br>
+                <input type="text" id="custodianA" custodianA="custodianA">
+            </div>    
+             <div>
+            <label for="custodianB">Enter the other parent/custodian's name</label>
+            <br>
+            <input type="text" custodianB="custodianB" id="custodianB">
+            </div>  
+            <label for="numberOfChildren">How many children under the age of 18 do you have with the other parent/custodian</label>
+            <br>
+            <input type="number" numberOfChildren" id="numberOfChildren">
+            </div>  
+        <hr>
+        </section>
+    </form>
+    
+<button class="button" id="submitCustodians">Submit</button>
+
+    <footer>
+        <h5>This tool was designed to provide an estimated child support oblgation according to Kentucky law; however, its accuracy depends on the information provided and there may be additional circumstances that present a court with discretion to vary.  The tool is designed to be informative but it is not a guarantee.</h5>
+    </footer>
+    <script src="index.js"></script>
+</body>
+</html>

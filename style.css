@@ -1,0 +1,19 @@
+
+body {
+    box-sizing: border-box;
+    font-size:larger;
+    background: radial-gradient(rgb(84, 84, 232));
+}
+input {
+    background-color: rgb(219, 190, 153);
+    margin-bottom: 15px;
+
+}
+.custodian-identifiers {
+  
+  
+}
+button {
+    background-color: rgb(219, 190, 153);
+    padding: 1rem;
+}
