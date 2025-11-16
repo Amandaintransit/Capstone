@@ -8,17 +8,28 @@
 </head>
 
 <body>
-    <form action="results.html" action="GET">
-         <section class="income-container" id="incomeContainer">
-            <div>
-            <label for="grossIncomeA">Enter your monthly gross Income</label> 
-            <br>
+    <h2> Hello <span id="custodianA"></span>!</h2> 
+    
+     
+
+    <p> Please answer the following questions about <i>your</i> income and costs:</p>
+    
+        <section class="income-container" id="incomeContainer">
+    <div>
+            <label for="grossIncomeA">Monthly Gross Income</label> 
             <input grossIncomeA="grossIncomeA" id="grossIncomeA">
-            </div>    
+    </div>    
+    <div> 
+        <p> Please answer the following questions about <span id="custodianB"></span>'s and costs:</p>
+ 
+            <label for="grossIncomeB">Enter your monthly gross Income</label> 
+            <br>
+            <input grossIncomeB="grossIncomeB" id="grossIncomeB">
+            </div>   
 
 
-
-    </form>
+   
+<a href="index.html">Return to Form</a>
     <script src="index.js"></script>
 </body>
 </html>
