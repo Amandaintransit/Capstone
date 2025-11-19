@@ -6,6 +6,7 @@ body {
 }
 input {
     background-color: rgb(219, 190, 153);
+    margin-bottom: 10px;
   
 /* creating more space between the inputs on page 1, but not on page 2*/
 }
@@ -13,9 +14,14 @@ input {
     margin-bottom: 15px;
   
 }
-button {
+#submitCustodians{
     background-color: rgb(219, 190, 153);
     padding: 1rem;
+}
+
+button {
+    background-color: rgb(219, 190, 153);
+   
 }
 footer {
     position: fixed;

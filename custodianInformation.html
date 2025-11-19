@@ -8,25 +8,53 @@
 </head>
 
 <body>
-    <h2> Hello <span id="custodianA"></span>!</h2> 
-    
-     
-
+        <form action="FinalEstimate.html" method="get">
+    <h2> Hello <span id="welcome1" ></span>!</h2> 
+<section id="first-custodian-income-container">
     <p> Please answer the following questions about <i>your</i> income and costs:</p>
     
         <section class="income-container" id="incomeContainer">
-    <div>
-            <label for="grossIncomeA">Monthly Gross Income</label> 
-            <input grossIncomeA="grossIncomeA" id="grossIncomeA">
+           <div>
+                <label></label>Monthly Gross Income:</label> 
+                <input type="number" id="grossIncomeA">
+            </div>
+            <div>
+                <label>How much, if any, do you pay in court-ordered maintenance to a prior spouse?</label>
+                <input type="number" id="maintenanceDeductionA" value="0">
+            </div>
+            <div>
+                <label>How much, if any, do you pay in court-ordered child support for prior child(ren)?</label>
+                <input type="number" id="priorBornChildDeductionA" value="0">
+            </div> 
+            
+                <button onclick="CalculateAdjustedGrossIncomeA()">Calculate AGI</button>
+                <p>Your Adjusted Gross Income: <span id="result"></span></p>
+             <div>
+                <label>Monthly Health Insurance Premium for Child(ren):</label>
+                <input type="number" id="healthInsurancePremiumA">
+            </div>
+        
+            <div>
+                <label>Monthly Child Care Costs:</label>
+                <input type="number" id="childCareCostsA">
+            </div> 
     </div>    
-    <div> 
-        <p> Please answer the following questions about <span id="custodianB"></span>'s and costs:</p>
+</section>
+    <Section id="second-custodian-income-container"> 
+        <p> Please answer the following questions about <span id="custodianB"></span>'s income and costs:</p>
  
-            <label for="grossIncomeB">Enter your monthly gross Income</label> 
-            <br>
-            <input grossIncomeB="grossIncomeB" id="grossIncomeB">
+            <label for="grossIncomeB">Monthly Gross Income:</label> 
+            <input type="number" name="grossIncomeB">
             </div>   
-
+          <div>
+                <label for="healthInsurancePremiumB">Monthly Health Insurance Premium for Child(ren):</label>
+                <input type="number" name="healthInsurancePremiumB">
+            </div> 
+            <div>
+                <label for="childCareCostsB">Monthly Child Care Costs:</label>
+                <input type="number" name="childCareCostsB">
+            </div> 
+</form>
 
    
 <a href="index.html">Return to Form</a>

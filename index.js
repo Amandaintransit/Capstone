@@ -1,23 +1,30 @@
 
+function saveFirstPage() {
+    let custA = document.getElementById("custodianA").value;
+    let custB = document.getElementById("custodianB").value;
 
+    localStorage.setItem("custodianA", custA);
+     localStorage.setItem("custodianB", custB);
+    window.location.href = "custodianInformation.html";
+}
+let cusA = localStorage.getItem("custodianA")
+let cusB =localStorage.getItem("custodianB");
+
+document.getElementById("welcome1").textContent = cusA;
+
+/*
 const params = new URLSearchParams(window.location.search);
 
 document.getElementById("custodianA").textContent = params.get("custodianA");
-
 document.getElementById("custodianB").textContent = params.get("custodianB");
 
-/*const custodianA = params.get("CustodianA");
-const custodianB = params.get("CustodianB");
-const numberOfChildren = params.get("NumberOfChildren");
+function calculateAdjustedGrossIncomeA() {
 
-document.getElementById("custodianAinfo").value = custodianA;
+let custodianAGrossIncome = document.getElementById("grossIncomeA").value;
+let maintenanceDeductionA = document.getElementById("maintenanceDeductionA").value;
+let priorBornChildDeductionA = document.getElementById("priorBornChildDeductionA").value;
 
+let AGIcustodianA = custodianAGrossIncome - maintenanceDeductionA - priorBornChildDeductionA;
 
-
-
-    const resultsList = document.getElementById('results')
-    new URLSearchParams(window.location.search).forEach((value, name)=> {
-        resultsList.append(`${name}: ${value}`)
-        resultsList.append(document.createElement('br'))
-    })
-*/
+document.getElementById("result").textContent = <p>`Your Adjusted Gross Income: ${AGIcustodianA}</p>;
+}*/
