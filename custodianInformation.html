@@ -8,7 +8,7 @@
 </head>
 
 <body>
-        <form action="FinalEstimate.html" method="get">
+      
     <h2> Hello <span id="welcome1" ></span>!</h2> 
 
 <section id="first-custodian-income-container">
@@ -16,28 +16,29 @@
     
         <section class="income-container" id="incomeContainer">
            <div>
-                <label></label>Monthly Gross Income:</label> 
-                <input type="number" id="grossIncomeA">
+                <label>Monthly Gross Income:</label> 
+                <input type="number" name="grossIncomeA" id="grossIncomeA">
             </div>
             <div>
-                <label>How much, if any, do you pay in court-ordered maintenance to a prior spouse?</label>
-                <input type="number" id="maintenanceDeductionA" value="0">
+                <label>How much, if any, do you pay monthly in court-ordered maintenance to a prior spouse?</label>
+                <input type="number" name="maintenanceDeductionA" id="maintenanceDeductionA" value="0">
             </div>
             <div>
                 <label>How much, if any, do you pay in court-ordered child support for prior child(ren)?</label>
-                <input type="number" id="priorBornChildDeductionA" value="0">
+                <input type="number" name="priorbornChildDeductionA" id="priorbornChildDeductionA" value="0">
             </div> 
             
-                <button onclick="CalculateAdjustedGrossIncomeA()">Calculate AGI</button>
-                <p>Your Adjusted Gross Income: <span id="result"></span></p>
+                <button onclick= "calculateAdjustedGrossIncomeA()">Calculate AGI</button>
+                
+                <p>Your Adjusted Gross Income: <span id="agiA"></span></p>
              <div>
-                <label>Monthly Health Insurance Premium for Child(ren):</label>
-                <input type="number" id="healthInsurancePremiumA">
+                <label>How much, if any, do you pay monthly for health insurance premiums for the Child(ren)?</label>
+                <input type="number" name="healthInsurancePremiumA" id="healthInsurancePremiumA">
             </div>
         
             <div>
-                <label>Monthly Child Care Costs:</label>
-                <input type="number" id="childCareCostsA">
+                <label>How much, if any, do you pay monthly for child care costs?</label>
+                <input type="number" name="childCareCostsA" id="childCareCostsA">
             </div> 
     </div>    
 </section>
@@ -45,24 +46,29 @@
         <p> Please answer the following questions about <span id="CustB"></span>'s income and costs:</p>
             <div>
             <label for="grossIncomeB">Monthly Gross Income:</label> 
-            <input type="number" name="grossIncomeB">
+            <input type="number" name="grossIncomeB" id="grossIncomeB">
             </div>   
            <div>
                 <label>How much, if any, does <span id="CustBmaintenance"></span> pay in court-ordered maintenance to a prior spouse?</label>
-                <input type="number" id="maintenanceDeductionB" value="0">
+                <input type="number" name="maintenanceDeductionB" id="maintenanceDeductionB" value="0">
             </div>
             <div>
                 <label>How much, if any, does <span id="CustBpriorsupport"></span> pay in court-ordered child support for prior child(ren)?</label>
-                <input type="number" id="priorBornChildDeductionB" value="0">
+                <input type="number" name="priorbornChildDeductionB" id="priorbornChildDeductionB" value="0">
             </div> 
+
+             <button onclick= "calculateAdjustedGrossIncomeB()">Calculate AGI</button>
+
+               <p><span id="CustBagi"></span>'s' Adjusted Gross Income: <span id="agiB"></span></p>
+
                 <label>How much, if any, does <span id="CustBhealth"></span> pay in monthly health care premiums child(ren)?</label>
-                <input type="number" name="healthInsurancePremiumB">
+                <input type="number" name="healthInsurancePremiumB" id="healthInsurancePremiumB">
             </div> 
             <div>
-                <label for="childCareCostsB">How much, if any, does <span id=CustBchildcare"></span>pay for monthly Child Care Costs:</label>
-                <input type="number" name="childCareCostsB">
+                <label for="childCareCostsB">How much, if any, does <span id="CustBchildcare"></span>pay for monthly Child Care Costs:</label>
+                <input type="number" name="childCareCostsB" id="childCareCostsB">
             </div> 
-</form>
+
 
    
 <a href="index.html">Return to Form</a>
