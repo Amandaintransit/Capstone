@@ -69,7 +69,7 @@ function calculateAdjustedGrossIncomeB() {
 
   async function accessChildSupportTable() {
 
-        const GuidelinesUrl ="https://sheets.googleapis.com/v4/spreadsheets/1lX7V_8IEhObhv6MXnffKUwwiilZkn6LvLDbFd_HPShA/values/ChildSupportTable?key=AIzaSyDV5DJJSaoS8aOsw8q3WMtnAMg7Gxo5jvg";
+        const GuidelinesUrl ="https://sheets.googleapis.com/v4/spreadsheets/1lX7V_8IEhObhv6MXnffKUwwiilZkn6LvLDbFd_HPShA/values/ChildSupportTable?key={key}";
         const response = await fetch(GuidelinesUrl);
         const data = await response.json();
 
@@ -90,7 +90,7 @@ function calculateAdjustedGrossIncomeB() {
     }
     const numOfChildren = localStorage.getItem("numberOfChildren");
     const combinedAgi = Number(sessionStorage.getItem("combinedIncome"));
-    
+
     function findBaseObligation(data, combinedIncome, numChildren) {
       const row = data.find(r => Number(r["Combined Income"]) === combinedIncome);
 
