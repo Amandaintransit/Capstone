@@ -12,7 +12,7 @@ function saveFirstPage() {
 }
 let cusA = localStorage.getItem("custodianA");
 let cusB =localStorage.getItem("custodianB");
-let numOfChildren = localStorage.getItem("numberOfChildren");
+
 
     
         document.getElementById("welcome1").textContent = cusA;
@@ -37,6 +37,9 @@ function calculateAdjustedGrossIncomeA() {
     }
 
     return adjustedGrossIncomeA;
+
+    sessionStorage.setItem('adjustedGrossIncomeA', adjustedGrossIncomeA);
+
 }
 
 /*calculate AGI for custodian B*/
@@ -52,14 +55,59 @@ function calculateAdjustedGrossIncomeB() {
         output.textContent = adjustedGrossIncomeB.toFixed(2);
     }
     return adjustedGrossIncomeB;
-}
+    sessionStorage.setItem('adjustedGrossIncomeB', adjustedGrossIncomeB);
 
-/*Set value for combined income and number of children*/
-    function combineIncome() {
-       return adjustedGrossIncomeA + adjustedGrossIncomeB
+}
+  const agiA = Number(sessionStorage.getItem("adjustedGrossIncomeA"));
+  const agiB = Number(sessionStorage.getItem("adjustedGrossIncomeB"));
+
+  let combinedIncome = agiA + agiB;
+  sessionStorage.setItem("combinedIncome", combinedIncome);
+  
+    
+/*pull the data from the google sheet table*/
+
+  async function accessChildSupportTable() {
+
+        const GuidelinesUrl ="https://sheets.googleapis.com/v4/spreadsheets/1lX7V_8IEhObhv6MXnffKUwwiilZkn6LvLDbFd_HPShA/values/ChildSupportTable?key=AIzaSyDV5DJJSaoS8aOsw8q3WMtnAMg7Gxo5jvg";
+        const response = await fetch(GuidelinesUrl);
+        const data = await response.json();
+
+        return data.values;
+    }
+      
+    function formatTable(rows) {
+      const headers = rows[0];
+      const dataRows = rows.slice(1);
+
+      return dataRows.map(row => {
+        let obj = {};
+        headers.forEach((h, i) => obj[h] = row[i]);
+          
+        return obj;
+      });
+
+    }
+    const numOfChildren = localStorage.getItem("numberOfChildren");
+    const combinedAgi = Number(sessionStorage.getItem("combinedIncome"));
+    
+    function findBaseObligation(data, combinedIncome, numChildren) {
+      const row = data.find(r => Number(r["Combined Income"]) === combinedIncome);
+
+      return row[`${numChildren} children`] || row[`${numChildren} child`];
     }
 
-/*
+    async function calculateBaseObligation() {
+      const rows = await accessChildSupportTable();
+      const table = formatTable(rows);
+      const income = Number(document.getElementById("income").value);
+      const kids = Number(document.getElementById("children").value);
+     const amount = findBaseObligation(table, income, kids);
+;
+
+      document.getElementById("result").innerText = "Base Obligation: " + amount;
+    }
+      /*
     let kyTable = null;
 
 async function loadSupportTable() {
