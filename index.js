@@ -2,7 +2,7 @@
 function saveFirstPage() {
     let custA = document.getElementById("custodianA").value;
     let custB = document.getElementById("custodianB").value;
-    let numbOfChildren = document.getElementById("numberOfChildren").value;
+    let numbOfChildren = Number(document.getElementById("numberOfChildren").value);
 
     localStorage.setItem("custodianA", custA);
      localStorage.setItem("custodianB", custB);
@@ -12,7 +12,7 @@ function saveFirstPage() {
 }
 let cusA = localStorage.getItem("custodianA");
 let cusB =localStorage.getItem("custodianB");
-
+let numOfChildren = localStorage.getItem("numberOfChildren");
 
     
         document.getElementById("welcome1").textContent = cusA;
@@ -22,6 +22,8 @@ let cusB =localStorage.getItem("custodianB");
         document.getElementById("CustBhealth").textContent = cusB;
         document.getElementById("CustBchildcare").textContent = cusB;
         document.getElementById("CustBagi").textContent = cusB;   
+        document.getElementById("kids").textContent = numOfChildren;
+
 
 /*calculate AGI for custodian A*/
 function calculateAdjustedGrossIncomeA() {
@@ -67,7 +69,7 @@ function calculateCombinedIncome() {
 
   const combinedIncome = agiA + agiB;
  sessionStorage.setItem("combinedIncome", combinedIncome);
- 
+
   const display = document.getElementById("combinedAgi");
   if (display) {
     display.textContent = combinedIncome.toFixed(2);
@@ -80,7 +82,7 @@ function calculateCombinedIncome() {
 
   async function accessChildSupportTable() {
 
-        const GuidelinesUrl ="https://sheets.googleapis.com/v4/spreadsheets/1lX7V_8IEhObhv6MXnffKUwwiilZkn6LvLDbFd_HPShA/values/ChildSupportTable?key={AIzaSyDV5DJJSaoS8aOsw8q3WMtnAMg7Gxo5jvg}";
+        const GuidelinesUrl ="https://sheets.googleapis.com/v4/spreadsheets/1lX7V_8IEhObhv6MXnffKUwwiilZkn6LvLDbFd_HPShA/values/ChildSupportTable?key=AIzaSyDV5DJJSaoS8aOsw8q3WMtnAMg7Gxo5jvg";
         const response = await fetch(GuidelinesUrl);
         const data = await response.json();
 
@@ -99,25 +101,39 @@ function calculateCombinedIncome() {
       });
 
     }
-    const numOfChildren = localStorage.getItem("numberOfChildren");
-    const combinedAgi = Number(sessionStorage.getItem("combinedIncome"));
+    
 
-    function findBaseObligation(data, combinedIncome, numChildren) {
-      const row = data.find(r => Number(r["Combined Income"]) === combinedIncome);
+    function findBaseObligation(kyTable, combinedIncome, numChildren) {
+      
+      const childColumnHeader = `${numChildren} ${numChildren == 1? "child" : "children"}`;      
 
-      return row[`${numChildren} children`] || row[`${numChildren} child`];
+      const incomeValue = Number(combinedIncome);
+
+      for (const row of kyTable ){
+         const rowIncome = Number(row["Combined Income"]);
+
+        if (rowIncome == incomeValue) {
+          return row[childColumnHeader];
+        }
+      }
+      return `No guideline row found for income ${combinedIncome}`;
     }
 
     async function calculateBaseObligation() {
       const rows = await accessChildSupportTable();
       const table = formatTable(rows);
-      const income = Number(document.getElementById("income").value);
-      const kids = Number(document.getElementById("children").value);
-     const amount = findBaseObligation(table, income, kids);
+      const combinedIncome = Number(sessionStorage.getItem("combinedIncome"));
+      const numChildren = Number(localStorage.getItem("numberOfChildren"));
+     
+      const amount = findBaseObligation(table, combinedIncome, numChildren);
 
-
-      document.getElementById("result").innerText = "Base Obligation: " + amount;
+      const result = document.getElementById("result");
+      if (result) {
+        result.textContent = "Base Obligation: " + amount; 
+      }
     }
+
+    
       /*
     let kyTable = null;
 
