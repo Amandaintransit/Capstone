@@ -35,10 +35,11 @@ function calculateAdjustedGrossIncomeA() {
     if (output){
         output.textContent = adjustedGrossIncomeA.toFixed(2);
     }
+     sessionStorage.setItem('adjustedGrossIncomeA', adjustedGrossIncomeA);
 
     return adjustedGrossIncomeA;
 
-    sessionStorage.setItem('adjustedGrossIncomeA', adjustedGrossIncomeA);
+   
 
 }
 
@@ -54,22 +55,32 @@ function calculateAdjustedGrossIncomeB() {
     if (output) {
         output.textContent = adjustedGrossIncomeB.toFixed(2);
     }
+     sessionStorage.setItem('adjustedGrossIncomeB', adjustedGrossIncomeB);
     return adjustedGrossIncomeB;
-    sessionStorage.setItem('adjustedGrossIncomeB', adjustedGrossIncomeB);
+   
 
 }
+function calculateCombinedIncome() {
+  
   const agiA = Number(sessionStorage.getItem("adjustedGrossIncomeA"));
   const agiB = Number(sessionStorage.getItem("adjustedGrossIncomeB"));
 
-  let combinedIncome = agiA + agiB;
-  sessionStorage.setItem("combinedIncome", combinedIncome);
-  
+  const combinedIncome = agiA + agiB;
+ sessionStorage.setItem("combinedIncome", combinedIncome);
+ 
+  const display = document.getElementById("combinedAgi");
+  if (display) {
+    display.textContent = combinedIncome.toFixed(2);
+  }
+ 
+    return combinedIncome;
+}
     
 /*pull the data from the google sheet table*/
 
   async function accessChildSupportTable() {
 
-        const GuidelinesUrl ="https://sheets.googleapis.com/v4/spreadsheets/1lX7V_8IEhObhv6MXnffKUwwiilZkn6LvLDbFd_HPShA/values/ChildSupportTable?key={key}";
+        const GuidelinesUrl ="https://sheets.googleapis.com/v4/spreadsheets/1lX7V_8IEhObhv6MXnffKUwwiilZkn6LvLDbFd_HPShA/values/ChildSupportTable?key={AIzaSyDV5DJJSaoS8aOsw8q3WMtnAMg7Gxo5jvg}";
         const response = await fetch(GuidelinesUrl);
         const data = await response.json();
 
@@ -103,7 +114,7 @@ function calculateAdjustedGrossIncomeB() {
       const income = Number(document.getElementById("income").value);
       const kids = Number(document.getElementById("children").value);
      const amount = findBaseObligation(table, income, kids);
-;
+
 
       document.getElementById("result").innerText = "Base Obligation: " + amount;
     }
