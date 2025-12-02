@@ -65,16 +65,17 @@
                 <input type="number" name="healthInsurancePremiumB" id="healthInsurancePremiumB">
             </div> 
             <div>
-                <label for="childCareCostsB">How much, if any, does <span id="CustBchildcare"></span>pay for monthly Child Care Costs:</label>
+                <label for="childCareCostsB">How much, if any, does <span id="CustBchildcare"></span> pay for monthly Child Care Costs:</label>
                 <input type="number" name="childCareCostsB" id="childCareCostsB">
             </div> 
 
         <button onclick="calculateCombinedIncome()">combinedIncome</button>
              <p>CombinedAdjusted Gross Income: <span id="combinedAgi"></span></p>
             <p>Number of Children <span id="kids"></span></p>
-        <button onclick="calculateBaseObligation()">Get Base Obligation</button>   
+
+        <button onclick="getBaseObligation()">Get Base Obligation</button>   
            
-            <p>Base Obligation: <span id="result"></span></p>
+            <p>Base Obligation: <span id="baseObligation"></span></p>
 
    <hr>
 <a href="index.html">Return to Form</a>

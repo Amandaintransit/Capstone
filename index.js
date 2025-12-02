@@ -8,8 +8,12 @@ function saveFirstPage() {
      localStorage.setItem("custodianB", custB);
      localStorage.setItem("numberOfChildren", numbOfChildren);
 
-    window.location.href = "custodianInformation.html";
+     window.location.href = "custodianInformation.html";
+
 }
+
+    
+
 let cusA = localStorage.getItem("custodianA");
 let cusB =localStorage.getItem("custodianB");
 let numOfChildren = localStorage.getItem("numberOfChildren");
@@ -70,10 +74,8 @@ function calculateCombinedIncome() {
   const combinedIncome = agiA + agiB;
  sessionStorage.setItem("combinedIncome", combinedIncome);
 
-  const display = document.getElementById("combinedAgi");
-  if (display) {
-    display.textContent = combinedIncome.toFixed(2);
-  }
+  document.getElementById("combinedAgi").textContent = combinedIncome.toFixed(2);
+  
  
     return combinedIncome;
 }
@@ -88,204 +90,60 @@ function calculateCombinedIncome() {
 
         return data.values;
     }
-      
-    function formatTable(rows) {
-      const headers = rows[0];
-      const dataRows = rows.slice(1);
 
-      return dataRows.map(row => {
-        let obj = {};
-        headers.forEach((h, i) => obj[h] = row[i]);
-          
-        return obj;
-      });
-
-    }
-    
-
-    function findBaseObligation(kyTable, combinedIncome, numChildren) {
-      
-      const childColumnHeader = `${numChildren} ${numChildren == 1? "child" : "children"}`;      
-
-      const incomeValue = Number(combinedIncome);
-
-      for (const row of kyTable ){
-         const rowIncome = Number(row["Combined Income"]);
-
-        if (rowIncome == incomeValue) {
-          return row[childColumnHeader];
+   function findIncomeRow(values, combinedIncome){
+      for (let i = 1; i<values.length; i++){
+        const raw = values[i][0];
+        const rowIncome = Number(raw.replace(/,/g, ""));
+       
+        if (isNaN(rowIncome)){
+          console.warn("Invalid income:", raw);
+          continue;
+        }
+        if (combinedIncome < rowIncome) {
+          return i -1;
         }
       }
-      return `No guideline row found for income ${combinedIncome}`;
-    }
+      return values.length - 1;
+   }
+      
+   function findChildColumn(values, numChildren){
+      const headerRow = values[0];
 
-    async function calculateBaseObligation() {
-      const rows = await accessChildSupportTable();
-      const table = formatTable(rows);
-      const combinedIncome = Number(sessionStorage.getItem("combinedIncome"));
-      const numChildren = Number(localStorage.getItem("numberOfChildren"));
-     
-      const amount = findBaseObligation(table, combinedIncome, numChildren);
-
-      const result = document.getElementById("result");
-      if (result) {
-        result.textContent = "Base Obligation: " + amount; 
+      for (let col =1; col < headerRow.length; col++) {
+        if (headerRow[col].startsWith(numChildren.toString())) {
+          return col;
+        }
       }
+      return null;
+   }
+   async function getBaseObligation(){
+    const combinedIncome = Number(sessionStorage.getItem("combinedIncome"));
+    const numChildren = Number(localStorage.getItem("numberOfChildren"));
+
+    const values = await accessChildSupportTable();
+
+    const childCol = findChildColumn(values, numChildren);
+    if (childCol === null) {
+      console.error("Number of Children Exceeds Chart", numChildren);
+      return null;
     }
 
-    
-      /*
-    let kyTable = null;
+    const incomeRow = findIncomeRow(values, combinedIncome);
+    console.log("incomeRow =", incomeRow);
+console.log("childCol =", childCol);
+console.log("Raw cell value =", values[incomeRow]?.[childCol]);
 
-async function loadSupportTable() {
-  if (kyTable) return;
-  try {
-    const resp = await fetch("kentuckySupportTable.json");
-    kyTable = await resp.json();
-  } catch (err) {
-    console.error("Error loading Kentucky support table:", err);
-  }
-}
+    const rawAmount = values[incomeRow][childCol];
+    const amount =  Number(String(rawAmount).replace(/,/g, "").trim());
 
-/**
- * Get the KY basic child support obligation.
- * @param {number} combinedIncome - combined monthly adjusted gross income
- * @param {number} numChildren - number of children (1–6)
- * @returns {number} support obligation, or null if not found
- */
-/*
-function getKentuckySupport(combinedIncome, numChildren) {
-  if (!kyTable) {
-    console.warn("Support table not loaded yet!");
-    return null;
-  }
+      const base = document.getElementById("baseObligation");
+      if (base) {
+        base.textContent = amount.toFixed(2);
+      } 
 
-  // Clamp numChildren to 6 (since table is "6 or more")
-  const idx = Math.min(numChildren, 6) - 1;
-  if (idx < 0) {
-    console.warn("Invalid number of children for support lookup:", numChildren);
-    return null;
-  }
+      sessionStorage.setItem("baseObligation", amount);
 
-  // Round down combinedIncome to nearest lower bracket of $100
-  const bracket = Math.floor(combinedIncome / 100) * 100;
-
-  // If combination is beyond highest key in table, pick the highest defined or handle separately
-  const keys = Object.keys(kyTable).map(k => Number(k)).sort((a, b) => a - b);
-  let useKey = bracket;
-  if (!kyTable.hasOwnProperty(bracket.toString())) {
-    // If bracket not defined, find the next lower key
-    for (let i = keys.length - 1; i >= 0; i--) {
-      if (keys[i] <= combinedIncome) {
-        useKey = keys[i];
-        break;
-      }
-    }
-  }
-
-  const row = kyTable[useKey.toString()];
-  if (!row) {
-    console.warn("No support row found for bracket", useKey);
-    return null;
-  }
-
-  return row[idx];
-}
-*/
-/*
-// After you calculate adjusted gross incomes:
-async function calculateSupport() {
-  await loadSupportTable();
-
-  const agiA = calculateAdjustedGrossIncomeA(); // you already have this
-  const agiB = Number(document.getElementById("grossIncomeB").value)
-    - Number(document.getElementById("maintenanceDeductionB").value || 0)
-    - Number(document.getElementById("priorBornChildDeductionB").value || 0);
-
-  const combined = agiA + agiB;
-
-  const numChildren = Number(document.getElementById("numChildren").value) || 1;
-
-  const baseObligation = getKentuckySupport(combined, numChildren);
-  if (baseObligation == null) {
-    console.error("Could not compute base obligation");
-    return;
-  }
-
-  // Calculate each parent’s share
-  const shareA = combined > 0 ? (agiA / combined) * baseObligation : 0;
-  const shareB = baseObligation - shareA;
-
-  // Display the results
-  document.getElementById("combinedAgi").textContent = combined.toFixed(2);
-  document.getElementById("baseObligation").textContent = baseObligation.toFixed(2);
-  document.getElementById("shareA").textContent = shareA.toFixed(2);
-  document.getElementById("shareB").textContent = shareB.toFixed(2);
-
-  // (Optional) store in localStorage
-  localStorage.setItem("kyCombinedAGI", combined);
-  localStorage.setItem("kyBaseObligation", baseObligation);
-  localStorage.setItem("kyShareA", shareA);
-  localStorage.setItem("kyShareB", shareB);
-}
-<button type="button" onclick="calculateSupport()">Calculate Support</button>
-
-<p>Combined AGI: <span id="combinedAgi"></span></p>
-<p>Guideline Support Obligation: <span id="baseObligation"></span></p>
-<p><span id="welcome1"></span>'s Share: <span id="shareA"></span></p>
-<p><span id="CustB"></span>'s Share: <span id="shareB"></span></p>
-
-
-/*wrapping previous code b/c javascript was breaking b/c trying to set before existed
-
-
-        document.getElementById("welcome1").textContent = cusA;
-    }
-    if (document.getElementById("custB")) {
-        document.getElementById("CustB").textContent = cusB;
-    }
-    if (document.getElementById("CustBmaintenance")) {
-        document.getElementById("CustBmaintenance").textContent = cusB;
-    }
-    if (document.getElementById("CustBpriorsupport")) {
-        document.getElementById("CustBpriorsupport").textContent = cusB;
-    }
-    if (document.getElementById("CustBhealth")) {
-        document.getElementById("CustBhealth").textContent = cusB;
-    }
-    if (document.getElementById("CustBchildcare")) {
-        document.getElementById("CustBchildcare").textContent = cusB;
-    }
-
-    }
-    fillCustodianNames();
-    */
-
-/*save data to calculate AGI
-function saveCustAIncomeInfo() {
-    let CAGI = document.getElementById("grossIncomeA").value;
-    let MDA = document.getElementById("maintenanceDeductionA").value;
-    let PBCDA = document.getElementById("priorbornChildDeductionA").value;
-
-    localStorage.setItem("grossIncomeA", CAGI);
-    localStorage.setItem("maintenanceDeductionA", MDA);
-    localStorage.setItem("priorbornChildDeductionA", PBCDA);
-
-}*/
-
-/*
-const params = new URLSearchParams(window.location.search);
-
-document.getElementById("custodianA").textContent = params.get("custodianA");
-document.getElementById("custodianB").textContent = params.get("custodianB");
-
-function calculateAdjustedGrossIncomeA() {
-
-let custodianAGrossIncome = document.getElementById("grossIncomeA").value;
-let maintenanceDeductionA = document.getElementById("maintenanceDeductionA").value;
-let priorBornChildDeductionA = document.getElementById("priorBornChildDeductionA").value;
-
-let AGIcustodianA = custodianAGrossIncome - maintenanceDeductionA - priorBornChildDeductionA;
-
-document.getElementById("result").textContent = <p>`Your Adjusted Gross Income: ${AGIcustodianA}</p>;
-}*/
+      return amount;
+   }
+   
