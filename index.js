@@ -27,7 +27,7 @@ let numOfChildren = localStorage.getItem("numberOfChildren");
         document.getElementById("CustBchildcare").textContent = cusB;
         document.getElementById("CustBagi").textContent = cusB;   
         document.getElementById("kids").textContent = numOfChildren;
-
+        document.getElementById("BPercent").textContent = cusB;   
 
 /*calculate AGI for custodian A*/
 function calculateAdjustedGrossIncomeA() {
@@ -79,6 +79,34 @@ function calculateCombinedIncome() {
  
     return combinedIncome;
 }
+
+function calculatePercentageCusA() {
+  const agiA = Number(sessionStorage.getItem("adjustedGrossIncomeA"));
+  const agiB = Number(sessionStorage.getItem("adjustedGrossIncomeB"));
+
+  const combinedIncome = Number(sessionStorage.getItem("combinedIncome"))
+
+  const percentageCustA = agiA/combinedIncome * 100;
+  sessionStorage.setItem("percentageCustA", percentageCustA)
+
+  document.getElementById("percentA").textContent = percentageCustA.toFixed(0) +"%";
+
+  return percentageCustA;
+
+}
+
+function calculatePercentageCusB() {  
+  const agiA = Number(sessionStorage.getItem("adjustedGrossIncomeA"));
+  const agiB = Number(sessionStorage.getItem("adjustedGrossIncomeB"));
+
+  const combinedIncome = Number(sessionStorage.getItem("combinedIncome"))
+
+  const percentageCustB = agiB/combinedIncome;
+  sessionStorage.setItem("percentageCustB", percentageCustB)
+
+  document.getElementById("percentB").textContent = percentageCustB.toFixed(0) + "%";
+
+  return percentageCustB;}
     
 /*pull the data from the google sheet table*/
 
@@ -90,6 +118,8 @@ function calculateCombinedIncome() {
 
         return data.values;
     }
+
+    /*finds highest income that combined income is lower than -- also cleans data b/c there were commas used in some figures*/
 
    function findIncomeRow(values, combinedIncome){
       for (let i = 1; i<values.length; i++){
@@ -146,4 +176,9 @@ console.log("Raw cell value =", values[incomeRow]?.[childCol]);
 
       return amount;
    }
-   
+   function percentageToObligation(){
+  const Apercent = Number(sessionStorage.getItem("percentageCustA"));
+  const fullObligation = Number(sessionStorage.getItem("amount"));
+  const obligationA = (percentageCustA * .01) * fullObligation;
+
+}
