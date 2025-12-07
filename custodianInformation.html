@@ -69,7 +69,7 @@
                 <input type="number" name="childCareCostsB" id="childCareCostsB">
             </div> 
 
-        <button onclick="calculateCombinedIncome()">combinedIncome</button>
+        <button onclick="calculateCombinedIncome()">Combined Income</button>
              <p>CombinedAdjusted Gross Income: <span id="combinedAgi"></span></p>
             <p>Number of Children <span id="kids"></span></p>
 
@@ -77,12 +77,12 @@
            
             <p>Base Obligation: <span id="baseObligation"></span></p>
 
-         <button onclick="calculatePercentageCusA(), calculatePercentageCusB()">get percentages</button>
-         <p>Your Percentage: <span id="percentA"></span> Your obligation: <span id="obligationA"></span></p>
-         <p><span id="BPercent"></span>'s Percentage: <span id="percentB"></span></p>
+         <button onclick="calculatePercentageCusA(), calculatePercentageCusB(), percentageToObligationA(), percentageToObligationB()">Get percentages</button>
+         <p>Your Percentage: <span id="percentA"></span> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; Your obligation: <span id="dollarObligationA"></span></p>
+         <p><span id="BPercent"></span>'s Percentage: <span id="percentB"></span> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<span id="BObligation"></span>'s obligation: <span id="dollarObligationB"></span></p>
 
-
-
+          <button onclick="calculateNetObligationA()">Test differenceA</button> 
+          <p>differeneA: <span id="differenceA"></span></p>
    <hr>
 <a href="index.html">Return to Form</a>
     <script src="index.js"></script>

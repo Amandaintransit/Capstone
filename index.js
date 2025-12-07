@@ -27,7 +27,8 @@ let numOfChildren = localStorage.getItem("numberOfChildren");
         document.getElementById("CustBchildcare").textContent = cusB;
         document.getElementById("CustBagi").textContent = cusB;   
         document.getElementById("kids").textContent = numOfChildren;
-        document.getElementById("BPercent").textContent = cusB;   
+        document.getElementById("BPercent").textContent = cusB; 
+        document.getElementById("BObligation").textContent = cusB;  
 
 /*calculate AGI for custodian A*/
 function calculateAdjustedGrossIncomeA() {
@@ -101,7 +102,7 @@ function calculatePercentageCusB() {
 
   const combinedIncome = Number(sessionStorage.getItem("combinedIncome"))
 
-  const percentageCustB = agiB/combinedIncome;
+  const percentageCustB = agiB/combinedIncome * 100;
   sessionStorage.setItem("percentageCustB", percentageCustB)
 
   document.getElementById("percentB").textContent = percentageCustB.toFixed(0) + "%";
@@ -176,9 +177,38 @@ console.log("Raw cell value =", values[incomeRow]?.[childCol]);
 
       return amount;
    }
-   function percentageToObligation(){
+   function percentageToObligationA(){
   const Apercent = Number(sessionStorage.getItem("percentageCustA"));
-  const fullObligation = Number(sessionStorage.getItem("amount"));
-  const obligationA = (percentageCustA * .01) * fullObligation;
+  const fullObligation = Number(sessionStorage.getItem("baseObligation"));
+  const obligationA = (Apercent * .01) * fullObligation;
+    sessionStorage.setItem("obligationA", obligationA)
 
+    document.getElementById("dollarObligationA").textContent = obligationA.toFixed(2);
+
+    return obligationA;
 }
+ function percentageToObligationB(){
+  const Bpercent = Number(sessionStorage.getItem("percentageCustB"));
+  const fullObligation = Number(sessionStorage.getItem("baseObligation"));
+  const obligationB = (Bpercent * .01) * fullObligation;
+    sessionStorage.setItem("obligationB", obligationB)
+
+    document.getElementById("dollarObligationB").textContent = obligationB.toFixed(2);
+
+    return obligationB;
+ }
+
+ function calculateNetObligationA() {
+    const minuend = Number(sessionStorage.getItem("obligationA"));
+  
+    const insA = Number(document.getElementById("healthInsurancePremiumA").value);
+    const childcareA = Number(document.getElementById("childCareCostsA").value);
+   
+    const subtrahend = insA + childcareA;
+
+    const differenceA = minuend - subtrahend;
+      sessionStorage.setItem("differenceA", differenceA)
+        document.getElementById("differenceA").textContent = differenceA.toFixed(2); 
+        
+      return differenceA;
+ }
