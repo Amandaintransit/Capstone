@@ -72,7 +72,10 @@
         <button onclick="calculateCombinedIncome()">Combined Income</button>
              <p>CombinedAdjusted Gross Income: <span id="combinedAgi"></span></p>
             <p>Number of Children <span id="kids"></span></p>
-
+        <div>
+            <label>How many nights per year do the child(ren) spend with <span id="OtherCustodian"></span>? (If you have 50/50 equal timesharing, enter 182)</label>
+             <input type="number" name="timesharingB" id="timesharingB">
+        </div>
         <button onclick="getBaseObligation()">Get Base Obligation</button>   
            
             <p>Base Obligation: <span id="baseObligation"></span></p>
@@ -81,9 +84,12 @@
          <p>Your Percentage: <span id="percentA"></span> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; Your obligation: <span id="dollarObligationA"></span></p>
          <p><span id="BPercent"></span>'s Percentage: <span id="percentB"></span> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<span id="BObligation"></span>'s obligation: <span id="dollarObligationB"></span></p>
 
-          <button onclick="calculateNetObligationA()">Test differenceA</button> 
-          <p>differeneA: <span id="differenceA"></span></p>
-   <hr>
+          <button onclick="calculateNetObligationA(), calculateNetObligationB(), calculateFinalObligation()">Get Net Obligations</button> 
+          <p>Your net obligation: <span id="differenceA"></span>&nbsp;&nbsp;&nbsp;&nbsp; <span id="BOblig"></span>'s net obligation: <span id="differenceB"></span></p>
+        <h3>FINAL OBLIGATION:  <span id="monthlyObligation"></span></h3>
+        
+   
+          <hr>
 <a href="index.html">Return to Form</a>
     <script src="index.js"></script>
 </body>

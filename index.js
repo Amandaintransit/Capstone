@@ -28,7 +28,10 @@ let numOfChildren = localStorage.getItem("numberOfChildren");
         document.getElementById("CustBagi").textContent = cusB;   
         document.getElementById("kids").textContent = numOfChildren;
         document.getElementById("BPercent").textContent = cusB; 
-        document.getElementById("BObligation").textContent = cusB;  
+        document.getElementById("BObligation").textContent = cusB;
+        document.getElementById("BOblig").textContent = cusB;  
+        document.getElementById("OtherCustodian").textContent = cusB;
+
 
 /*calculate AGI for custodian A*/
 function calculateAdjustedGrossIncomeA() {
@@ -45,8 +48,6 @@ function calculateAdjustedGrossIncomeA() {
      sessionStorage.setItem('adjustedGrossIncomeA', adjustedGrossIncomeA);
 
     return adjustedGrossIncomeA;
-
-   
 
 }
 
@@ -212,3 +213,36 @@ console.log("Raw cell value =", values[incomeRow]?.[childCol]);
         
       return differenceA;
  }
+  function calculateNetObligationB() {
+    const minuend = Number(sessionStorage.getItem("obligationB"));
+  
+    const insB = Number(document.getElementById("healthInsurancePremiumB").value);
+    const childcareB = Number(document.getElementById("childCareCostsB").value);
+   
+    const subtrahend = insB + childcareB;
+
+    const differenceB = minuend - subtrahend;
+      sessionStorage.setItem("differenceB", differenceB)
+        document.getElementById("differenceB").textContent = differenceB.toFixed(2); 
+        
+      return differenceB;
+  }
+
+  function calculateFinalObligation(){
+     const timesharingDays = Number(document.getElementById("timesharingB").value);
+    console.log(timesharingDays)
+     const timesharingPercent = timesharingDays/365;
+     console.log(timesharingPercent); 
+    const fullObligation = Number(sessionStorage.getItem("baseObligation"));
+    console.log(fullObligation);
+    const credit = timesharingPercent * fullObligation;
+    console.log(credit);
+  
+    const netDifB = Number(sessionStorage.getItem("differenceB"));
+    console.log(netDifB);
+    const monthlyObligation = netDifB - credit;
+      console.log(monthlyObligation);
+    document.getElementById("monthlyObligation").textContent = monthlyObligation.toFixed(2);
+  
+      return monthlyObligation;
+  }
