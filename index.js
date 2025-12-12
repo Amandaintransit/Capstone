@@ -242,7 +242,16 @@ console.log("Raw cell value =", values[incomeRow]?.[childCol]);
     console.log(netDifB);
     const monthlyObligation = netDifB - credit;
       console.log(monthlyObligation);
-    document.getElementById("monthlyObligation").textContent = monthlyObligation.toFixed(2);
-  
+ 
+ 
+if (monthlyObligation <0){
+  document.getElementById("monthlyObligation").textContent = `"Your monthly child support obligation will be ${monthlyObligation.toFixed(2)}"`;  
+}
+else {
+  document.getElementById("monthlyObligation").textContent = `"You should receive monthly child support of ${Math.abs(monthlyObligation.toFixed(2))}"`; 
+}
       return monthlyObligation;
+
+   
+
   }
