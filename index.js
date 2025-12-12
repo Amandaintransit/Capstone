@@ -113,12 +113,20 @@ function calculatePercentageCusB() {
 /*pull the data from the google sheet table*/
 
   async function accessChildSupportTable() {
-
+    try {
         const GuidelinesUrl ="https://sheets.googleapis.com/v4/spreadsheets/1lX7V_8IEhObhv6MXnffKUwwiilZkn6LvLDbFd_HPShA/values/ChildSupportTable?key=AIzaSyDV5DJJSaoS8aOsw8q3WMtnAMg7Gxo5jvg";
         const response = await fetch(GuidelinesUrl);
+        
+        if (!response.ok){
+          throw new Error("Could not access guidelines");
+        }
         const data = await response.json();
 
         return data.values;
+    }
+    catch (error) {
+      console.error("error", error)
+    }
     }
 
     /*finds highest income that combined income is lower than -- also cleans data b/c there were commas used in some figures*/
@@ -245,10 +253,10 @@ console.log("Raw cell value =", values[incomeRow]?.[childCol]);
  
  
 if (monthlyObligation <0){
-  document.getElementById("monthlyObligation").textContent = `"Your monthly child support obligation will be ${monthlyObligation.toFixed(2)}"`;  
+  document.getElementById("monthlyObligation").textContent = `Your monthly child support obligation will be $ ${Math.abs(monthlyObligation.toFixed(2))}`;  
 }
 else {
-  document.getElementById("monthlyObligation").textContent = `"You should receive monthly child support of ${Math.abs(monthlyObligation.toFixed(2))}"`; 
+  document.getElementById("monthlyObligation").textContent = `You should receive monthly child support of $ ${monthlyObligation.toFixed(2)}`; 
 }
       return monthlyObligation;
 
