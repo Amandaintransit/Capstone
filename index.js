@@ -262,6 +262,30 @@ else {
       return monthlyObligation;
 
   }
- 
-
+ function saveSecondPage(){
    
+ const CScombined = Number(sessionStorage.getItem('combinedIncome'));
+ document.getElementById('CScombinedIncome').textContent = formatCurrency(CScombined);
+
+
+ window.location.href = "worksheet.html";
+ }
+
+ /*function formatCurrency(value){
+  return value.toLocaleString("en-US", {
+    style: "currency", currency: "USD"
+  });
+ }
+
+ function saveFirstPage() {
+    let custA = document.getElementById("custodianA").value;
+    let custB = document.getElementById("custodianB").value;
+    let numbOfChildren = Number(document.getElementById("numberOfChildren").value);
+
+    localStorage.setItem("custodianA", custA);
+     localStorage.setItem("custodianB", custB);
+     localStorage.setItem("numberOfChildren", numbOfChildren);
+
+     window.location.href = "custodianInformation.html";
+
+}*/
