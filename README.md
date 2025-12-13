@@ -17,12 +17,9 @@ The statutory scheme for determining child support obligations under Kentucky la
 
 | Page | Description |
 |------|-------------|
-| **Landing Page** | The landing page provides users with options to navigate the web application and gives an overview of what to expect, featuring sections for workout routines, macro-nutrient calculator, and nutrition planning. |
-| **Workout Database Page** | Using a custom JavaScript database and YouTube API integration, this page displays categorized exercises (Push/Pull/Legs) with instructional videos, detailed information, and modifications for different ability levels. |
-| **Macro Calculator** | An interactive tool that allows users to input their weight and activity level to receive personalized nutrition recommendations, including daily calorie, protein, fat, and carbohydrate targets. |
-| **Nutrition** | Integrates with the Nutritionix API to allow users to search for food items and view detailed nutritional information, supporting better dietary choices for those with chronic conditions. |
-| **Medical Disclaimer** | Important health information for users, clarifying that the site provides educational content but not medical advice, and encouraging consultation with healthcare professionals. |
-
+| **Landing Page** | The landing page introduces the program with a description of its purpose and also contains a disclaimer in the footer.  It obtains the basic information of the user, the other custodian and the number of children so that questions on the next page can be personalized.  |
+| **Income Questions** | This page asks the user questions with subsequent questions based upon the user's input to the initial questions.  It then fetches data from a google sheets API that contains the base child support obligation based upon the parties' income and number of children, converted to json, and then searches the row(number of children) and column (combined income) to find the intersecting cell (base obligation amount).  Other factors are considered based upon the user input to assess the percentage of each custodian's obligation, awards credit for timesharing and displays amount of obligation and whether same is owed by the user or to the user.  |
+| **Worksheet** | Presents the data obtained and the results in a visually appealing manner that is similar to a formatted worksheet commonwly used by attorneys and courts, so it appears familiar and easy to understand. CSS is the focus of this page. |
 
 
 ## Capstone Requirements Fulfilled
