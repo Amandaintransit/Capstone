@@ -36,6 +36,7 @@ let numOfChildren = localStorage.getItem("numberOfChildren");
 /*calculate AGI for custodian A*/
 function calculateAdjustedGrossIncomeA() {
     let gross = Number(document.getElementById("grossIncomeA").value);
+     localStorage.setItem("grossIncomeA", grossIncomeA);
     let maintenance = Number(document.getElementById("maintenanceDeductionA").value);
     let priorChildDeduction = Number(document.getElementById("priorbornChildDeductionA").value);
 
@@ -45,7 +46,7 @@ function calculateAdjustedGrossIncomeA() {
     if (output){
         output.textContent = adjustedGrossIncomeA.toFixed(2);
     }
-     sessionStorage.setItem('adjustedGrossIncomeA', adjustedGrossIncomeA);
+     localStorage.setItem('adjustedGrossIncomeA', adjustedGrossIncomeA);
 
     return adjustedGrossIncomeA;
 
@@ -63,18 +64,18 @@ function calculateAdjustedGrossIncomeB() {
     if (output) {
         output.textContent = adjustedGrossIncomeB.toFixed(2);
     }
-     sessionStorage.setItem('adjustedGrossIncomeB', adjustedGrossIncomeB);
+     localStorage.setItem('adjustedGrossIncomeB', adjustedGrossIncomeB);
     return adjustedGrossIncomeB;
    
 
 }
 function calculateCombinedIncome() {
   
-  const agiA = Number(sessionStorage.getItem("adjustedGrossIncomeA"));
-  const agiB = Number(sessionStorage.getItem("adjustedGrossIncomeB"));
+  const agiA = Number(localStorage.getItem("adjustedGrossIncomeA"));
+  const agiB = Number(localStorage.getItem("adjustedGrossIncomeB"));
 
   const combinedIncome = agiA + agiB;
- sessionStorage.setItem("combinedIncome", combinedIncome);
+ localStorage.setItem("combinedIncome", combinedIncome);
 
   document.getElementById("combinedAgi").textContent = combinedIncome.toFixed(2);
   
@@ -83,13 +84,13 @@ function calculateCombinedIncome() {
 }
 
 function calculatePercentageCusA() {
-  const agiA = Number(sessionStorage.getItem("adjustedGrossIncomeA"));
-  const agiB = Number(sessionStorage.getItem("adjustedGrossIncomeB"));
+  const agiA = Number(localStorage.getItem("adjustedGrossIncomeA"));
+  const agiB = Number(localStorage.getItem("adjustedGrossIncomeB"));
 
-  const combinedIncome = Number(sessionStorage.getItem("combinedIncome"))
+  const combinedIncome = Number(localStorage.getItem("combinedIncome"))
 
   const percentageCustA = agiA/combinedIncome * 100;
-  sessionStorage.setItem("percentageCustA", percentageCustA)
+  localStorage.setItem("percentageCustA", percentageCustA)
 
   document.getElementById("percentA").textContent = percentageCustA.toFixed(0) +"%";
 
@@ -98,13 +99,13 @@ function calculatePercentageCusA() {
 }
 
 function calculatePercentageCusB() {  
-  const agiA = Number(sessionStorage.getItem("adjustedGrossIncomeA"));
-  const agiB = Number(sessionStorage.getItem("adjustedGrossIncomeB"));
+  const agiA = Number(localStorage.getItem("adjustedGrossIncomeA"));
+  const agiB = Number(localStorage.getItem("adjustedGrossIncomeB"));
 
-  const combinedIncome = Number(sessionStorage.getItem("combinedIncome"))
+  const combinedIncome = Number(localStorage.getItem("combinedIncome"))
 
   const percentageCustB = agiB/combinedIncome * 100;
-  sessionStorage.setItem("percentageCustB", percentageCustB)
+  localStorage.setItem("percentageCustB", percentageCustB)
 
   document.getElementById("percentB").textContent = percentageCustB.toFixed(0) + "%";
 
@@ -158,7 +159,7 @@ function calculatePercentageCusB() {
       return null;
    }
    async function getBaseObligation(){
-    const combinedIncome = Number(sessionStorage.getItem("combinedIncome"));
+    const combinedIncome = Number(localStorage.getItem("combinedIncome"));
     const numChildren = Number(localStorage.getItem("numberOfChildren"));
 
     const values = await accessChildSupportTable();
@@ -182,25 +183,25 @@ console.log("Raw cell value =", values[incomeRow]?.[childCol]);
         base.textContent = amount.toFixed(2);
       } 
 
-      sessionStorage.setItem("baseObligation", amount);
+      localStorage.setItem("baseObligation", amount);
 
       return amount;
    }
    function percentageToObligationA(){
-  const Apercent = Number(sessionStorage.getItem("percentageCustA"));
-  const fullObligation = Number(sessionStorage.getItem("baseObligation"));
+  const Apercent = Number(localStorage.getItem("percentageCustA"));
+  const fullObligation = Number(localStorage.getItem("baseObligation"));
   const obligationA = (Apercent * .01) * fullObligation;
-    sessionStorage.setItem("obligationA", obligationA)
+    localStorage.setItem("obligationA", obligationA)
 
     document.getElementById("dollarObligationA").textContent = obligationA.toFixed(2);
 
     return obligationA;
 }
  function percentageToObligationB(){
-  const Bpercent = Number(sessionStorage.getItem("percentageCustB"));
-  const fullObligation = Number(sessionStorage.getItem("baseObligation"));
+  const Bpercent = Number(localStorage.getItem("percentageCustB"));
+  const fullObligation = Number(localStorage.getItem("baseObligation"));
   const obligationB = (Bpercent * .01) * fullObligation;
-    sessionStorage.setItem("obligationB", obligationB)
+    localStorage.setItem("obligationB", obligationB)
 
     document.getElementById("dollarObligationB").textContent = obligationB.toFixed(2);
 
@@ -208,7 +209,7 @@ console.log("Raw cell value =", values[incomeRow]?.[childCol]);
  }
 
  function calculateNetObligationA() {
-    const minuend = Number(sessionStorage.getItem("obligationA"));
+    const minuend = Number(localStorage.getItem("obligationA"));
   
     const insA = Number(document.getElementById("healthInsurancePremiumA").value);
     const childcareA = Number(document.getElementById("childCareCostsA").value);
@@ -216,13 +217,13 @@ console.log("Raw cell value =", values[incomeRow]?.[childCol]);
     const subtrahend = insA + childcareA;
 
     const differenceA = minuend - subtrahend;
-      sessionStorage.setItem("differenceA", differenceA)
+      localStorage.setItem("differenceA", differenceA)
         document.getElementById("differenceA").textContent = differenceA.toFixed(2); 
         
       return differenceA;
  }
   function calculateNetObligationB() {
-    const minuend = Number(sessionStorage.getItem("obligationB"));
+    const minuend = Number(localStorage.getItem("obligationB"));
   
     const insB = Number(document.getElementById("healthInsurancePremiumB").value);
     const childcareB = Number(document.getElementById("childCareCostsB").value);
@@ -230,7 +231,7 @@ console.log("Raw cell value =", values[incomeRow]?.[childCol]);
     const subtrahend = insB + childcareB;
 
     const differenceB = minuend - subtrahend;
-      sessionStorage.setItem("differenceB", differenceB)
+      localStorage.setItem("differenceB", differenceB)
         document.getElementById("differenceB").textContent = differenceB.toFixed(2); 
         
       return differenceB;
@@ -241,17 +242,17 @@ console.log("Raw cell value =", values[incomeRow]?.[childCol]);
     console.log(timesharingDays)
      const timesharingPercent = timesharingDays/365;
      console.log(timesharingPercent); 
-    const fullObligation = Number(sessionStorage.getItem("baseObligation"));
+    const fullObligation = Number(localStorage.getItem("baseObligation"));
     console.log(fullObligation);
     const credit = timesharingPercent * fullObligation;
     console.log(credit);
   
-    const netDifB = Number(sessionStorage.getItem("differenceB"));
+    const netDifB = Number(localStorage.getItem("differenceB"));
     console.log(netDifB);
     const monthlyObligation = netDifB - credit;
       console.log(monthlyObligation);
  
- 
+    localStorage.setItem("monthlyObligation", monthlyObligation)
 if (monthlyObligation <0){
   document.getElementById("monthlyObligation").textContent = `Your monthly child support obligation will be $ ${Math.abs(monthlyObligation.toFixed(2))}`;  
 }
