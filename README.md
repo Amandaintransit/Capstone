@@ -27,60 +27,20 @@ The statutory scheme for determining child support obligations under Kentucky la
 
 | Requirement | Implementation |
 |-------------|----------------|
-| **Retrieve data from a third-party API** | • Integrated Nutritionix API for food nutrition data<br>• Implemented YouTube API for video metadata |
-| **Create a Node.js web server using Express.js** | • Built a robust Express server with multiple routes<br>• Implemented API endpoints for nutrition and YouTube data |
-| **Use arrays, objects to store and retrieve information** | • Created a comprehensive workout database using JavaScript objects<br>• Organized exercises in categorized arrays (push/pull/legs) |
-| **Visualize data in a user-friendly way** | • Designed organized exercise cards with clear visual hierarchy<br>• Created macro-calculator with specific results |
+| **Integrate an API** | • After creating a googlesheet that reflects that child support guidelines enumerated in the statute, enabled API, obtained API key but restricted it to this page referrer so that it could be displayed in javascript without being abused by others <br>•  |
 | **Responsive Design** | • Implemented responsive layouts using Flexbox<br>• Created media queries for different screen sizes<br>• Built with mobile-first approach |
+| **More than two pages/routes** | • Created a comprehensive workout database using JavaScript objects<br>• Organized exercises in categorized arrays (push/pull/legs) |
+| **Function that accepts 2 parameters and returns a calculated value** | • Designed organized exercise cards with clear visual hierarchy<br>• Created macro-calculator with specific results |
+| **Visually Appealing** |  |
+| **Convert user input between 2 formats** |  |
+| **Calculate and display data based on an external factor** |  |
 
 
-## How to Download
-1. Set up: Before installing the application, you'll need to obtain these API keys:
+## SETUP
+Go to the following website and simply follow the instructions.  I restricted my API key to use with only this website so that the project could be deployed through github pages and the user would not have to obtain a key. The program should be ready to run by just going to the following site:
+https://amandaintransit.github.io/Capstone/
 
-    A. Nutritionix API: For nutrition data lookups; Sign up at Nutritionix API
-    Create an application to get your App ID and API Key @ https://developer.nutritionix.com/signup
-
-    B. YouTube API (Google Cloud): 
-      1. Go to the Google Cloud Console: https://console.cloud.google.com/
-      2. Create a new project or select an existing one
-      3. Enable the YouTube Data API v3:
-         - In the navigation menu, click "APIs & Services" > "Library"
-         - Search for "YouTube Data API v3"
-         - Click "Enable"
-      4. Create credentials:
-         - Go to "APIs & Services" > "Credentials"
-         - Click "Create Credentials" > "API key"
-         - You will use this API key when you create a `.env` file
-
-2. **Clone the repository using GIT**
-   ```bash
-   git clone https://github.com/aprilsears/chronically-well.git
-   ```
-
-3. **Navigate to the project directory**
-   ```bash
-   cd chronically-well
-   ```
-
-4. **Install dependencies**
-   ```bash
-   npm install
-   ```
-5. **Create environment variables file**
-   Create a file named `.env` in the project root directory with the following content:
-
-   ```env
-   NUTRITIONIX_APP_ID=your_app_id_here
-   NUTRITIONIX_API_KEY=your_api_key_here
-   YOUTUBE_API_KEY=your_youtube_api_key_here
-   PORT=3002
-   ```
-
-6. **Start the server**
-   ```bash
-   npm run dev
-   ```
-
+ 
 7. **Access the application**
    Open your browser and navigate to:
    ```bash
