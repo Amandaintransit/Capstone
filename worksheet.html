@@ -11,9 +11,9 @@
 <p>Custodian B: <span id="worksheetCustB"></span></p>
 <p>Children: <span id="worksheetKids"></span></p>
 
-<span id="worksheetGrossA"></span>
-<span id="worksheetMaintenanceA"></span>
-${worksheetChildDeductionA}`
+<p>$<span id="worksheetGrossA"></span></p>
+<p>$<span id="worksheetMaintenanceA"></span></p>
+<p>$<span id="worksheetChildDeductionA"></span></p>
 
 
 <p>Combined Income: $<span id="worksheetCombined"></span></p>
@@ -23,8 +23,7 @@ ${worksheetChildDeductionA}`
 
     <script src="index.js"></script>
    <script>
-        loadWorksheet();
-        document.addEventListener("DomContentLoaded", loadWorksheet);
+        document.addEventListener("DOMContentLoaded", loadWorksheet);
     </script> 
 </body>
 </html>

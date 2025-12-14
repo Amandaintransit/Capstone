@@ -37,18 +37,20 @@ let numOfChildren = localStorage.getItem("numberOfChildren");
 /*calculate AGI for custodian A*/
 function calculateAdjustedGrossIncomeA() {
     let grossA = Number(document.getElementById("grossIncomeA").value);
-     localStorage.setItem("grossA", grossA);
     let maintenanceA = Number(document.getElementById("maintenanceDeductionA").value);
-    localStorage.setItem("maintenanceA", maintenanceA)
     let priorChildDeductionA = Number(document.getElementById("priorbornChildDeductionA").value);
-    localStorage.setItem("priorChildDeductionA", priorChildDeductionA);
-   
+    
+   localStorage.setItem("grossIncomeA", grossA);
+    localStorage.setItem("maintenanceDeductionA", maintenanceA);
+    localStorage.setItem("priorbornChildDeductionA", priorChildDeductionA);
+
     let adjustedGrossIncomeA = grossA - maintenanceA - priorChildDeductionA;
 
     const output = document.getElementById("agiA");
     if (output){
         output.textContent = adjustedGrossIncomeA.toFixed(2);
     }
+    
      localStorage.setItem('adjustedGrossIncomeA', adjustedGrossIncomeA);
 
     return adjustedGrossIncomeA;
@@ -69,7 +71,6 @@ function calculateAdjustedGrossIncomeB() {
     }
      localStorage.setItem('adjustedGrossIncomeB', adjustedGrossIncomeB);
     return adjustedGrossIncomeB;
-   
 
 }
 function calculateCombinedIncome() {
@@ -265,6 +266,37 @@ else {
       return monthlyObligation;
 
   }
+
+  async function savePageTwo() {
+  // Force AGI calculations
+  calculateAdjustedGrossIncomeA();
+  calculateAdjustedGrossIncomeB();
+
+  // Force combined + percentages
+  calculateCombinedIncome();
+  calculatePercentageCusA();
+  calculatePercentageCusB();
+
+  // Wait for guideline lookup
+  await getBaseObligation();
+
+  // Downstream calculations
+  percentageToObligationA();
+  percentageToObligationB();
+  calculateNetObligationA();
+  calculateNetObligationB();
+  calculateFinalObligation();
+
+  // 🔍 DEBUG (remove later)
+  console.log("PAGE 2 STORAGE SNAPSHOT:");
+  console.log("combinedIncome", localStorage.getItem("combinedIncome"));
+  console.log("baseObligation", localStorage.getItem("baseObligation"));
+  console.log("monthlyObligation", localStorage.getItem("monthlyObligation"));
+
+  // Navigate ONLY after everything is saved
+  window.location.href = "worksheet.html";
+}
+
 /*function savePageTwo() {
   const requiredKeys = [
     "combinedIncome",
@@ -281,7 +313,7 @@ else {
 
   window.location.href = "worksheet.html";
 }
-*/
+
 
 
  function savePageTwo() {
@@ -301,25 +333,31 @@ else {
     window.location.href = "worksheet.html";
   });
 }
-
-   
+*/
+    
  function loadWorksheet() {
   const custA = localStorage.getItem("custodianA");
   const custB = localStorage.getItem("custodianB");
   const kids = localStorage.getItem("numberOfChildren");
 
+  const grossA = Number(localStorage.getItem("grossIncomeA"));
+  const maintenanceA = Number(localStorage.getItem("maintenanceDeductionA"));
+  const priorChildDeductionA = Number(localStorage.getItem("priorbornChildDeductionA"));
+  const adjustedGrossIncomeA = Number(localStorage.getItem("adjustedGrossIncomeA"));
+
   const combinedIncome = localStorage.getItem("combinedIncome");
   const baseObligation = localStorage.getItem("baseObligation");
   const monthlyObligation = localStorage.getItem("monthlyObligation");
 
+   
   if (document.getElementById("worksheetCustA")) {
     document.getElementById("worksheetCustA").textContent = custA;
     document.getElementById("worksheetCustB").textContent = custB;
     document.getElementById("worksheetKids").textContent = kids;
-
     document.getElementById("worksheetGrossA").textContent = Number(grossA).toFixed(2);
     document.getElementById("worksheetMaintenanceA").textContent =  Number(maintenanceA).toFixed(2);
     document.getElementById("worksheetChildDeductionA").textContent = Number(priorChildDeductionA).toFixed(2);
+  
       
     document.getElementById("worksheetCombined").textContent = Number(combinedIncome).toFixed(2);
 
