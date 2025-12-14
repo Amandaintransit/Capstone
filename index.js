@@ -59,11 +59,15 @@ function calculateAdjustedGrossIncomeA() {
 
 /*calculate AGI for custodian B*/
 function calculateAdjustedGrossIncomeB() {
-    let gross = Number(document.getElementById("grossIncomeB").value);
-    let maintenance = Number(document.getElementById("maintenanceDeductionB").value);
-    let priorChildDeduction = Number(document.getElementById("priorbornChildDeductionB").value);
+    let grossB = Number(document.getElementById("grossIncomeB").value);
+    let maintenanceB = Number(document.getElementById("maintenanceDeductionB").value);
+    let priorChildDeductionB = Number(document.getElementById("priorbornChildDeductionB").value);
 
-    let adjustedGrossIncomeB = gross - maintenance - priorChildDeduction;
+    localStorage.setItem("grossIncomeB", grossB);
+    localStorage.setItem("maintenanceDeductionB", maintenanceB);
+    localStorage.setItem("priorbornChildDeductionB", priorChildDeductionB)
+
+    let adjustedGrossIncomeB = grossB - maintenanceB - priorChildDeductionB;
 
     const output = document.getElementById("agiB");
     if (output) {
@@ -218,12 +222,15 @@ console.log("Raw cell value =", values[incomeRow]?.[childCol]);
     const insA = Number(document.getElementById("healthInsurancePremiumA").value);
     const childcareA = Number(document.getElementById("childCareCostsA").value);
    
+    localStorage.setItem("healthInsurancePremiumA", insA);
+    localStorage.setItem("childCareCostsA", childcareA);
+
     const subtrahend = insA + childcareA;
 
     const differenceA = minuend - subtrahend;
-      localStorage.setItem("differenceA", differenceA)
+      
         document.getElementById("differenceA").textContent = differenceA.toFixed(2); 
-        
+      localStorage.setItem("differenceA", differenceA)  
       return differenceA;
  }
   function calculateNetObligationB() {
@@ -232,30 +239,34 @@ console.log("Raw cell value =", values[incomeRow]?.[childCol]);
     const insB = Number(document.getElementById("healthInsurancePremiumB").value);
     const childcareB = Number(document.getElementById("childCareCostsB").value);
    
+    localStorage.setItem("healthInsurancePremiumB", insB);
+    localStorage.setItem("childCareCostsB", childcareB);
+
     const subtrahend = insB + childcareB;
 
     const differenceB = minuend - subtrahend;
-      localStorage.setItem("differenceB", differenceB)
+      
         document.getElementById("differenceB").textContent = differenceB.toFixed(2); 
-        
+        localStorage.setItem("differenceB", differenceB);
       return differenceB;
   }
 
   function calculateFinalObligation(){
-     const timesharingDays = Number(document.getElementById("timesharingB").value);
-    console.log(timesharingDays)
+     const timesharingInput = document.getElementById("timesharingB");
+
+     const timesharingDays = Number(timesharingInput?.value) || 0;
+     Number(document.getElementById("timesharingB").value);
+
+    localStorage.setItem("timesharingB", timesharingDays);
+
      const timesharingPercent = timesharingDays/365;
-     console.log(timesharingPercent); 
+    
     const fullObligation = Number(localStorage.getItem("baseObligation"));
-    console.log(fullObligation);
-    const credit = timesharingPercent * fullObligation;
-    console.log(credit);
-  
     const netDifB = Number(localStorage.getItem("differenceB"));
-    console.log(netDifB);
+    const credit = timesharingPercent * fullObligation;
+  
     const monthlyObligation = netDifB - credit;
-      console.log(monthlyObligation);
- 
+    
     localStorage.setItem("monthlyObligation", monthlyObligation)
 if (monthlyObligation <0){
   document.getElementById("monthlyObligation").textContent = `Your monthly child support obligation will be $ ${Math.abs(monthlyObligation.toFixed(2))}`;  
@@ -280,60 +291,18 @@ else {
   // Wait for guideline lookup
   await getBaseObligation();
 
-  // Downstream calculations
+  
   percentageToObligationA();
   percentageToObligationB();
   calculateNetObligationA();
   calculateNetObligationB();
   calculateFinalObligation();
 
-  // 🔍 DEBUG (remove later)
-  console.log("PAGE 2 STORAGE SNAPSHOT:");
-  console.log("combinedIncome", localStorage.getItem("combinedIncome"));
-  console.log("baseObligation", localStorage.getItem("baseObligation"));
-  console.log("monthlyObligation", localStorage.getItem("monthlyObligation"));
-
-  // Navigate ONLY after everything is saved
-  window.location.href = "worksheet.html";
-}
-
-/*function savePageTwo() {
-  const requiredKeys = [
-    "combinedIncome",
-    "baseObligation",
-    "monthlyObligation"
-  ];
-
-  for (const key of requiredKeys) {
-    if (!localStorage.getItem(key)) {
-      alert("Please complete all calculations before continuing.");
-      return;
-    }
-  }
 
   window.location.href = "worksheet.html";
 }
 
 
-
- function savePageTwo() {
-  
-  calculateCombinedIncome();
-  calculatePercentageCusA();
-  calculatePercentageCusB();
-
-  getBaseObligation().then(() => {
-    percentageToObligationA();
-    percentageToObligationB();
-    calculateNetObligationA();
-    calculateNetObligationB();
-    calculateFinalObligation();
-
-    
-    window.location.href = "worksheet.html";
-  });
-}
-*/
     
  function loadWorksheet() {
   const custA = localStorage.getItem("custodianA");
@@ -343,12 +312,34 @@ else {
   const grossA = Number(localStorage.getItem("grossIncomeA"));
   const maintenanceA = Number(localStorage.getItem("maintenanceDeductionA"));
   const priorChildDeductionA = Number(localStorage.getItem("priorbornChildDeductionA"));
+
   const adjustedGrossIncomeA = Number(localStorage.getItem("adjustedGrossIncomeA"));
+
+  const grossB = Number(localStorage.getItem("grossIncomeB"));
+  const maintenanceB = Number(localStorage.getItem("maintenanceDeductionB"));
+  const priorChildDeductionB = Number(localStorage.getItem("priorbornChildDeductionB"));
+
+  const adjustedGrossIncomeB = Number(localStorage.getItem("adjustedGrossIncomeB"));
+
 
   const combinedIncome = localStorage.getItem("combinedIncome");
   const baseObligation = localStorage.getItem("baseObligation");
   const monthlyObligation = localStorage.getItem("monthlyObligation");
 
+  const insA = localStorage.getItem("healthInsurancePremiumA");
+  const childcareA = localStorage.getItem("childCareCostsA");
+
+  const insB = localStorage.getItem("healthInsurancePremiumB");
+  const childcareB = localStorage.getItem("childCareCostsB");
+
+  const percentageCustA = localStorage.getItem("percentageCustA");
+  const percentageCustB = localStorage.getItem("percentageCustB");
+
+  const obligationA = localStorage.getItem("obligationA");
+
+  const timesharingDays = localStorage.getItem("timesharingB");
+  const differenceA = localStorage.getItem("differenceA");
+  const differenceB = localStorage.getItem("differenceB");
    
   if (document.getElementById("worksheetCustA")) {
     document.getElementById("worksheetCustA").textContent = custA;
@@ -357,9 +348,30 @@ else {
     document.getElementById("worksheetGrossA").textContent = Number(grossA).toFixed(2);
     document.getElementById("worksheetMaintenanceA").textContent =  Number(maintenanceA).toFixed(2);
     document.getElementById("worksheetChildDeductionA").textContent = Number(priorChildDeductionA).toFixed(2);
-  
+    
+    document.getElementById("worksheetAdjustedGrossIncomeA").textContent = Number(adjustedGrossIncomeA).toFixed(2);
+    document.getElementById("worksheetInsurancePremiumA").textContent = Number(insA).toFixed(2);
+    document.getElementById("worksheetChildcareA").textContent = Number(childcareA).toFixed(2);
+
+    document.getElementById("worksheetGrossB").textContent = Number(grossB).toFixed(2);
+    document.getElementById("worksheetMaintenanceB").textContent =  Number(maintenanceB).toFixed(2);
+    document.getElementById("worksheetChildDeductionB").textContent = Number(priorChildDeductionB).toFixed(2);
+
+    document.getElementById("worksheetInsurancePremiumB").textContent = Number(insB).toFixed(2);
+    document.getElementById("worksheetChildcareB").textContent = Number(childcareB).toFixed(2);
+
+    document.getElementById("worksheetAdjustedGrossIncomeB").textContent = Number(adjustedGrossIncomeB).toFixed(2);
       
     document.getElementById("worksheetCombined").textContent = Number(combinedIncome).toFixed(2);
+
+    document.getElementById("worksheetPercentA").textContent = Number(percentageCustA).toFixed(0) +"%";
+    document.getElementById("worksheetPercentB").textContent = Number(percentageCustB).toFixed(0) +"%";
+
+    document.getElementById("worksheetOblA").textContent = Number(obligationA).toFixed(2);
+
+    document.getElementById("worksheetNetOblA").textContent = Number(differenceA).toFixed(2);
+    document.getElementById("worksheetNetOblB").textContent = Number(differenceB).toFixed(2);
+    document.getElementById("worksheetTimesharingB").textContent = Number(timesharingDays);
 
     document.getElementById("worksheetBase").textContent = Number(baseObligation).toFixed(2);
 
@@ -393,3 +405,22 @@ function handleDeductionsAToggle(){
     document.getElementById("priorbornChildDeductionB").value = 0;
     }
 }
+
+/*function savePageTwo() {
+  const requiredKeys = [
+    "combinedIncome",
+    "baseObligation",
+    "monthlyObligation"
+  ];
+
+  for (const key of requiredKeys) {
+    if (!localStorage.getItem(key)) {
+      alert("Please complete all calculations before continuing.");
+      return;
+    }
+  }
+
+  window.location.href = "worksheet.html";
+}
+
+*/
