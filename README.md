@@ -30,19 +30,16 @@ The statutory scheme for determining child support obligations under Kentucky la
 | **Integrate an API** | • After creating a googlesheet that reflects that child support guidelines enumerated in the statute, enabled API, obtained API key but restricted it to this page referrer so that it could be displayed in javascript without being abused by others <br>•  |
 | **Responsive Design** | • Implemented responsive layouts using Flexbox<br>• Created media queries for different screen sizes<br>• Built with mobile-first approach |
 | **More than two pages/routes** | • Created a comprehensive workout database using JavaScript objects<br>• Organized exercises in categorized arrays (push/pull/legs) |
-| **Function that accepts 2 parameters and returns a calculated value** | • Designed organized exercise cards with clear visual hierarchy<br>• Created macro-calculator with specific results |
-| **Visually Appealing** |  |
-| **Convert user input between 2 formats** |  |
-| **Calculate and display data based on an external factor** |  |
+| **Function that accepts 2 parameters and returns a value determined by the inputs** | • Examples are the functions that find the correct column based on number of children and find the correct row based upon the calculated combined income to return the value in the intersecting cell |
+| **Visually Appealing** | utilized CSS and flexbox/grid to display the results in clearly defined and easy to read manner |
+| **Calculate and display data based on an external factor** | The external factor is the base obligation obtained from the API, and the amount it returns is used for further calculations to allocate the amount based on percentages previously determined.  |
 
 
-## SETUP
-Go to the following website and simply follow the instructions.  I restricted my API key to use with only this website so that the project could be deployed through github pages and the user would not have to obtain a key. The program should be ready to run by just going to the following site:
+## Access the Application
+Go to the following website and simply follow the instructions, make up some data to input to test it out.  I restricted my API key to use with only this website so that the project could be deployed through github pages and the user would not have to obtain a key. The program should be ready to run by just going to the following site:
 https://amandaintransit.github.io/Capstone/
 
  
-7. **Access the application**
-   Open your browser and navigate to:
    ```bash
    http://localhost:3002
-   ```
+   ``
