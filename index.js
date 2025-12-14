@@ -36,12 +36,14 @@ let numOfChildren = localStorage.getItem("numberOfChildren");
   }
 /*calculate AGI for custodian A*/
 function calculateAdjustedGrossIncomeA() {
-    let gross = Number(document.getElementById("grossIncomeA").value);
-     localStorage.setItem("gross", gross);
-    let maintenance = Number(document.getElementById("maintenanceDeductionA").value);
-    let priorChildDeduction = Number(document.getElementById("priorbornChildDeductionA").value);
-
-    let adjustedGrossIncomeA = gross - maintenance - priorChildDeduction;
+    let grossA = Number(document.getElementById("grossIncomeA").value);
+     localStorage.setItem("grossA", grossA);
+    let maintenanceA = Number(document.getElementById("maintenanceDeductionA").value);
+    localStorage.setItem("maintenanceA", maintenanceA)
+    let priorChildDeductionA = Number(document.getElementById("priorbornChildDeductionA").value);
+    localStorage.setItem("priorChildDeductionA", priorChildDeductionA);
+   
+    let adjustedGrossIncomeA = grossA - maintenanceA - priorChildDeductionA;
 
     const output = document.getElementById("agiA");
     if (output){
@@ -263,7 +265,7 @@ else {
       return monthlyObligation;
 
   }
-function savePageTwo() {
+/*function savePageTwo() {
   const requiredKeys = [
     "combinedIncome",
     "baseObligation",
@@ -279,10 +281,10 @@ function savePageTwo() {
 
   window.location.href = "worksheet.html";
 }
+*/
 
 
-
-/* function savePageTwo() {
+ function savePageTwo() {
   
   calculateCombinedIncome();
   calculatePercentageCusA();
@@ -299,7 +301,7 @@ function savePageTwo() {
     window.location.href = "worksheet.html";
   });
 }
-*/
+
    
  function loadWorksheet() {
   const custA = localStorage.getItem("custodianA");
@@ -315,14 +317,15 @@ function savePageTwo() {
     document.getElementById("worksheetCustB").textContent = custB;
     document.getElementById("worksheetKids").textContent = kids;
 
-    document.getElementById("worksheetCombined").textContent =
-      Number(combinedIncome).toFixed(2);
+    document.getElementById("worksheetGrossA").textContent = Number(grossA).toFixed(2);
+    document.getElementById("worksheetMaintenanceA").textContent =  Number(maintenanceA).toFixed(2);
+    document.getElementById("worksheetChildDeductionA").textContent = Number(priorChildDeductionA).toFixed(2);
+      
+    document.getElementById("worksheetCombined").textContent = Number(combinedIncome).toFixed(2);
 
-    document.getElementById("worksheetBase").textContent =
-      Number(baseObligation).toFixed(2);
+    document.getElementById("worksheetBase").textContent = Number(baseObligation).toFixed(2);
 
-    document.getElementById("worksheetMonthly").textContent =
-      Number(monthlyObligation).toFixed(2);
+    document.getElementById("worksheetMonthly").textContent = Number(monthlyObligation).toFixed(2);
   }
 }
 
