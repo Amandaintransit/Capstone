@@ -7,7 +7,19 @@
     <link rel= "stylesheet" href="style.css">
 </head>
 <body>
-        <p>Combined Income: <span id="CScombinedIncome"></span></p>
+        <p>Custodian A: <span id="worksheetCustA"></span></p>
+<p>Custodian B: <span id="worksheetCustB"></span></p>
+<p>Children: <span id="worksheetKids"></span></p>
+
+<p>Combined Income: $<span id="worksheetCombined"></span></p>
+<p>Base Obligation: $<span id="worksheetBase"></span></p>
+<p>Monthly Obligation: $<span id="worksheetMonthly"></span></p>
+
+
     <script src="index.js"></script>
+   <script>
+        loadWorksheet();
+        document.addEventListener("DomContentLoaded", loadWorksheet);
+    </script> 
 </body>
 </html>

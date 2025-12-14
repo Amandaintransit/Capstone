@@ -1,5 +1,6 @@
 
 function saveFirstPage() {
+  
     let custA = document.getElementById("custodianA").value;
     let custB = document.getElementById("custodianB").value;
     let numbOfChildren = Number(document.getElementById("numberOfChildren").value);
@@ -12,7 +13,7 @@ function saveFirstPage() {
 
 }
 
-    
+  function loadCustodianInformation(){  
 
 let cusA = localStorage.getItem("custodianA");
 let cusB =localStorage.getItem("custodianB");
@@ -31,12 +32,12 @@ let numOfChildren = localStorage.getItem("numberOfChildren");
         document.getElementById("BObligation").textContent = cusB;
         document.getElementById("BOblig").textContent = cusB;  
         document.getElementById("OtherCustodian").textContent = cusB;
-
-
+        document.getElementById("CustBDeductions").textContent = cusB;
+  }
 /*calculate AGI for custodian A*/
 function calculateAdjustedGrossIncomeA() {
     let gross = Number(document.getElementById("grossIncomeA").value);
-     localStorage.setItem("grossIncomeA", grossIncomeA);
+     localStorage.setItem("gross", gross);
     let maintenance = Number(document.getElementById("maintenanceDeductionA").value);
     let priorChildDeduction = Number(document.getElementById("priorbornChildDeductionA").value);
 
@@ -262,30 +263,92 @@ else {
       return monthlyObligation;
 
   }
- function saveSecondPage(){
-   
- const CScombined = Number(sessionStorage.getItem('combinedIncome'));
- document.getElementById('CScombinedIncome').textContent = formatCurrency(CScombined);
+function savePageTwo() {
+  const requiredKeys = [
+    "combinedIncome",
+    "baseObligation",
+    "monthlyObligation"
+  ];
+
+  for (const key of requiredKeys) {
+    if (!localStorage.getItem(key)) {
+      alert("Please complete all calculations before continuing.");
+      return;
+    }
+  }
+
+  window.location.href = "worksheet.html";
+}
 
 
- window.location.href = "worksheet.html";
- }
 
- /*function formatCurrency(value){
-  return value.toLocaleString("en-US", {
-    style: "currency", currency: "USD"
+/* function savePageTwo() {
+  
+  calculateCombinedIncome();
+  calculatePercentageCusA();
+  calculatePercentageCusB();
+
+  getBaseObligation().then(() => {
+    percentageToObligationA();
+    percentageToObligationB();
+    calculateNetObligationA();
+    calculateNetObligationB();
+    calculateFinalObligation();
+
+    
+    window.location.href = "worksheet.html";
   });
- }
+}
+*/
+   
+ function loadWorksheet() {
+  const custA = localStorage.getItem("custodianA");
+  const custB = localStorage.getItem("custodianB");
+  const kids = localStorage.getItem("numberOfChildren");
 
- function saveFirstPage() {
-    let custA = document.getElementById("custodianA").value;
-    let custB = document.getElementById("custodianB").value;
-    let numbOfChildren = Number(document.getElementById("numberOfChildren").value);
+  const combinedIncome = localStorage.getItem("combinedIncome");
+  const baseObligation = localStorage.getItem("baseObligation");
+  const monthlyObligation = localStorage.getItem("monthlyObligation");
 
-    localStorage.setItem("custodianA", custA);
-     localStorage.setItem("custodianB", custB);
-     localStorage.setItem("numberOfChildren", numbOfChildren);
+  if (document.getElementById("worksheetCustA")) {
+    document.getElementById("worksheetCustA").textContent = custA;
+    document.getElementById("worksheetCustB").textContent = custB;
+    document.getElementById("worksheetKids").textContent = kids;
 
-     window.location.href = "custodianInformation.html";
+    document.getElementById("worksheetCombined").textContent =
+      Number(combinedIncome).toFixed(2);
 
-}*/
+    document.getElementById("worksheetBase").textContent =
+      Number(baseObligation).toFixed(2);
+
+    document.getElementById("worksheetMonthly").textContent =
+      Number(monthlyObligation).toFixed(2);
+  }
+}
+
+function handleDeductionsAToggle(){
+    const yesChecked = document.getElementById("deductionsAYes").checked;
+    const container = document.getElementById("deductionsAContainer");
+
+    if(yesChecked) {
+      container.style.display = "block";
+    } else {
+      container.style.display = "none";
+
+    document.getElementById("maintenanceDeductionA").value = 0;
+    document.getElementById("priorbornChildDeductionA").value = 0;
+    }
+}
+  function handleDeductionsBToggle(){
+    const yesChecked = document.getElementById("deductionsBYes").checked;
+    const container = document.getElementById("deductionsBContainer");
+
+    if(yesChecked) {
+      container.style.display = "block";
+    } else {
+      container.style.display = "none";
+
+    document.getElementById("maintenanceDeductionB").value = 0;
+    document.getElementById("priorbornChildDeductionB").value = 0;
+    }
+}

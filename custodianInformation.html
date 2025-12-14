@@ -20,25 +20,32 @@
                 <input type="number" name="grossIncomeA" id="grossIncomeA">
             </div>
             <div>
+                <label>Are you court ordered to pay maintenance to a former spouse or child support for a prior-born child(ren)?</label>
+                 Yes <input type="radio" name="deductionsA" value="yes" id="deductionsAYes" onclick="handleDeductionsAToggle()"> 
+                 No<input type="radio" name="deductionsA" value="no" id="deductionsANo" onclick="handleDeductionsAToggle()">
+            </div>
+        <div id="deductionsAContainer" style="display: none;">
+            <div>
                 <label>How much, if any, do you pay monthly in court-ordered maintenance to a prior spouse?</label>
                 <input type="number" name="maintenanceDeductionA" id="maintenanceDeductionA" value="0">
             </div>
+
             <div>
                 <label>How much, if any, do you pay in court-ordered child support for prior child(ren)?</label>
                 <input type="number" name="priorbornChildDeductionA" id="priorbornChildDeductionA" value="0">
             </div> 
-            
+        </div>    
                 <button onclick= "calculateAdjustedGrossIncomeA()">Calculate AGI</button>
                 
                 <p>Your Adjusted Gross Income: <span id="agiA"></span></p>
              <div>
                 <label>How much, if any, do you pay monthly for health insurance premiums for the Child(ren)?</label>
-                <input type="number" name="healthInsurancePremiumA" id="healthInsurancePremiumA">
+                <input type="number" name="healthInsurancePremiumA" id="healthInsurancePremiumA" value="0">
             </div>
         
             <div>
                 <label>How much, if any, do you pay monthly for child care costs?</label>
-                <input type="number" name="childCareCostsA" id="childCareCostsA">
+                <input type="number" name="childCareCostsA" id="childCareCostsA" value="0">
             </div> 
     </div>    
 </section>
@@ -48,6 +55,12 @@
             <label for="grossIncomeB">Monthly Gross Income:</label> 
             <input type="number" name="grossIncomeB" id="grossIncomeB">
             </div>   
+             <div>
+                <label>Is <span id="CustBDeductions"></span> court ordered to pay maintenance to a former spouse or child support for a prior-born child(ren)?</label>
+                 Yes <input type="radio" name="deductionsB" value="yes" id="deductionsBYes" onclick="handleDeductionsBToggle()"> 
+                 No <input type="radio" name="deductionsB" value="no" id="deductionsBNo" onclick="handleDeductionsBToggle()"> 
+            </div>
+        <div id="deductionsBContainer" style="display: none;">
            <div>
                 <label>How much, if any, does <span id="CustBmaintenance"></span> pay in court-ordered maintenance to a prior spouse?</label>
                 <input type="number" name="maintenanceDeductionB" id="maintenanceDeductionB" value="0">
@@ -62,11 +75,11 @@
                <p><span id="CustBagi"></span>'s' Adjusted Gross Income: <span id="agiB"></span></p>
 
                 <label>How much, if any, does <span id="CustBhealth"></span> pay in monthly health care premiums child(ren)?</label>
-                <input type="number" name="healthInsurancePremiumB" id="healthInsurancePremiumB">
+                <input type="number" name="healthInsurancePremiumB" id="healthInsurancePremiumB" value="0">
             </div> 
             <div>
                 <label for="childCareCostsB">How much, if any, does <span id="CustBchildcare"></span> pay for monthly Child Care Costs:</label>
-                <input type="number" name="childCareCostsB" id="childCareCostsB">
+                <input type="number" name="childCareCostsB" id="childCareCostsB" value="0">
             </div> 
 
         <button onclick="calculateCombinedIncome()">Combined Income</button>
@@ -76,9 +89,11 @@
             <label>How many nights per year do the child(ren) spend with <span id="OtherCustodian"></span>? (If you have 50/50 equal timesharing, enter 182)</label>
              <input type="number" name="timesharingB" id="timesharingB" min="0" max="365">
         </div>
-        <button onclick="getBaseObligation()">Get Base Obligation</button>   
+        <button onclick="getBaseObligation()", >Get Base Obligation</button>   
            
             <p>Base Obligation: <span id="baseObligation"></span></p>
+
+            <a href="https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=55832" target="_blank">Want to view the full statute?</a>
 
          <button onclick="calculatePercentageCusA(), calculatePercentageCusB(), percentageToObligationA(), percentageToObligationB()">Get percentages</button>
          <p>Your Percentage: <span id="percentA"></span> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; Your obligation: <span id="dollarObligationA"></span></p>
@@ -88,10 +103,13 @@
           <p>Your net obligation: <span id="differenceA"></span>&nbsp;&nbsp;&nbsp;&nbsp; <span id="BOblig"></span>'s net obligation: <span id="differenceB"></span></p>
         <h3>FINAL OBLIGATION:  <span id="monthlyObligation"></span></h3>
         
-        <button onclick="displayResults()">Generate Worksheet</button>
-       
+        <button onclick="savePageTwo()">Next Page</button>  
+
           <hr>
 <a href="index.html">Return to Home</a>  
     <script src="index.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", loadCustodianInformation);
+    </script>
 </body>
 </html>
