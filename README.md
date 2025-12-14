@@ -39,7 +39,3 @@ The statutory scheme for determining child support obligations under Kentucky la
 Go to the following website and simply follow the instructions, make up some data to input to test it out.  I restricted my API key to use with only this website so that the project could be deployed through github pages and the user would not have to obtain a key. The program should be ready to run by just going to the following site:
 https://amandaintransit.github.io/Capstone/
 
- 
-   ```bash
-   http://localhost:3002
-   ``
