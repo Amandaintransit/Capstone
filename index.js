@@ -302,8 +302,79 @@ else {
   window.location.href = "worksheet.html";
 }
 
+function setText(id, value) {
+  const el = document.getElementById(id);
+  if (!el) return;
 
-    
+  el.textContent = value;
+}
+
+function setMoney(id, value) {
+  const num = Number(value);
+  if (!isFinite(num)) {
+    setText(id, "0.00");
+    return;
+  }
+  setText(id, num.toFixed(2));
+}
+
+function setPercent(id, value) {
+  const num = Number(value);
+  if (!isFinite(num)) {
+    setText(id, "0%");
+    return;
+  }
+  setText(id, num.toFixed(0) + "%");
+}
+
+function loadWorksheet() {
+
+  // ---- Basic info ----
+  setText("worksheetCustA", localStorage.getItem("custodianA"));
+  setText("worksheetCustB", localStorage.getItem("custodianB"));
+  setText("worksheetKids", localStorage.getItem("numberOfChildren"));
+
+  // ---- Custodian A ----
+  setMoney("worksheetGrossA", localStorage.getItem("grossIncomeA"));
+  setMoney("worksheetMaintenanceA", localStorage.getItem("maintenanceDeductionA"));
+  setMoney("worksheetChildDeductionA", localStorage.getItem("priorbornChildDeductionA"));
+  setMoney("worksheetAdjustedGrossIncomeA", localStorage.getItem("adjustedGrossIncomeA"));
+  setMoney("worksheetInsurancePremiumA", localStorage.getItem("healthInsurancePremiumA"));
+  setMoney("worksheetChildcareA", localStorage.getItem("childCareCostsA"));
+
+  // ---- Custodian B ----
+  setMoney("worksheetGrossB", localStorage.getItem("grossIncomeB"));
+  setMoney("worksheetMaintenanceB", localStorage.getItem("maintenanceDeductionB"));
+  setMoney("worksheetChildDeductionB", localStorage.getItem("priorbornChildDeductionB"));
+  setMoney("worksheetAdjustedGrossIncomeB", localStorage.getItem("adjustedGrossIncomeB"));
+  setMoney("worksheetInsurancePremiumB", localStorage.getItem("healthInsurancePremiumB"));
+  setMoney("worksheetChildcareB", localStorage.getItem("childCareCostsB"));
+
+  // ---- Percentages ----
+  setPercent("worksheetPercentA", localStorage.getItem("percentageCustA"));
+  setPercent("worksheetPercentB", localStorage.getItem("percentageCustB"));
+
+  // ---- Obligations ----
+  setMoney("worksheetOblA", localStorage.getItem("obligationA"));
+  setMoney("worksheetOblB", localStorage.getItem("obligationB"));
+
+  setMoney("worksheetNetOblA", localStorage.getItem("differenceA"));
+  setMoney("worksheetNetOblB", localStorage.getItem("differenceB"));
+
+  // ---- Time-sharing ----
+  setText(
+    "worksheetTimesharingB",
+    Number(localStorage.getItem("timesharingB")) || 0
+  );
+
+  // ---- Totals ----
+  setMoney("worksheetCombined", localStorage.getItem("combinedIncome"));
+  setMoney("worksheetBase", localStorage.getItem("baseObligation"));
+  setMoney("worksheetMonthly", localStorage.getItem("monthlyObligation"));
+}
+
+
+ /*   
  function loadWorksheet() {
   const custA = localStorage.getItem("custodianA");
   const custB = localStorage.getItem("custodianB");
@@ -380,7 +451,7 @@ else {
     document.getElementById("worksheetMonthly").textContent = Number(monthlyObligation).toFixed(2);
   }
 }
-
+*/
 function handleDeductionsAToggle(){
     const yesChecked = document.getElementById("deductionsAYes").checked;
     const container = document.getElementById("deductionsAContainer");
