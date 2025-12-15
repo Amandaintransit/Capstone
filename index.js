@@ -209,7 +209,7 @@ console.log("Raw cell value =", values[incomeRow]?.[childCol]);
   const Bpercent = Number(localStorage.getItem("percentageCustB"));
   const fullObligation = Number(localStorage.getItem("baseObligation"));
   const obligationB = (Bpercent * .01) * fullObligation;
-    localStorage.setItem("obligationB", obligationB)
+    localStorage.setItem("obligationB", obligationB);
 
     document.getElementById("dollarObligationB").textContent = obligationB.toFixed(2);
 
@@ -336,6 +336,7 @@ else {
   const percentageCustB = localStorage.getItem("percentageCustB");
 
   const obligationA = localStorage.getItem("obligationA");
+  const obligationB = localStorage.getItem("obligationB");
 
   const timesharingDays = localStorage.getItem("timesharingB");
   const differenceA = localStorage.getItem("differenceA");
@@ -368,6 +369,7 @@ else {
     document.getElementById("worksheetPercentB").textContent = Number(percentageCustB).toFixed(0) +"%";
 
     document.getElementById("worksheetOblA").textContent = Number(obligationA).toFixed(2);
+    document.getElementById("worksheetOblB").textContent = Number(obligationB).toFixed(2);
 
     document.getElementById("worksheetNetOblA").textContent = Number(differenceA).toFixed(2);
     document.getElementById("worksheetNetOblB").textContent = Number(differenceB).toFixed(2);

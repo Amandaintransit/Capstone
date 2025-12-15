@@ -7,6 +7,99 @@
     <link rel= "stylesheet" href="style.css">
 </head>
 <body>
+   <table class="worksheet">
+  <thead>
+    <tr>
+      <th></th>
+      <th><span id="worksheetCustA"></span></th>
+      <th><span id="worksheetCustB"></th>
+      <th>Both Custodians</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Gross Monthly Income</td>
+      <td id="worksheetGrossA"></td>
+      <td id="worksheetGrossB"></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Maintenance Deduction</td>
+      <td id="worksheetMaintenanceA"></td>
+      <td id="worksheetMaintenanceB"></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Prior Born Child Deduction</td>
+      <td id="worksheetChildDeductionA"></td>
+      <td id="worksheetChildDeductionB"></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Adjusted Gross Income</td>
+      <td id="worksheetAdjustedGrossIncomeA"></td>
+      <td id="worksheetAdjustedGrossIncomeB"></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Combined Monthly Adjusted Gross Income</td>
+      <td></td>
+      <td></td>
+      <td id="worksheetCombined"></td>
+    </tr>
+    tr>
+      <td>Percentage of Combined Monthly Adjusted Gross Income</td>
+      <td id="worksheetPercentA"></td>
+      <td id="worksheetPercentB"></td>
+      <td></td>
+    </tr>
+     tr>
+      <td>Total Child Support Obligation From Chart</td>
+      <td></td>
+      <td></td>
+      <td id="worksheetBase"></td>
+    </tr>
+     tr>
+      <td>Obligation Allocation According To Income Ratio</td>
+      <td id="worksheetOblA"></td>
+      <td id="worksheetOblB"></td>
+      <td></td>
+    </tr>
+     tr>
+      <td>Childcare Costs Paid By Each Parent</td>
+      <td id="worksheetChildcare"A></td>
+      <td id="worksheetChildcareB"></td>
+      <td></td>
+    </tr>
+    tr>
+      <td>Children's Health Insurance Premium Paid By Each Parent</td>
+      <td id="worksheetInsurancePremiumA"></td>
+      <td id="worksheetInsurancePremiumB"></td>
+      <td></td>
+    </tr>
+     tr>
+      <td>Obligation Total Including Childcare and Healthcare Costs</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    tr>
+      <td>Each Parent's Monthly Support Obligation</td>
+      <td id="worksheetNetOblA"></td>
+      <td id="worksheetNetOblB"></td>
+      <td></td>
+    </tr>
+    tr>
+      <td>Each Parent's Monthly Support Obligation</td>
+      <td id="worksheetNetOblA"></td>
+      <td id="worksheetNetOblB"></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+
+    <section id="worksheetContainer" class="worksheetContainer">
 <p>Custodian A: <span id="worksheetCustA"></span></p>
 <p>Custodian B: <span id="worksheetCustB"></span></p>
 <p>Children: <span id="worksheetKids"></span></p>
@@ -42,6 +135,7 @@
 <p>Base Obligation: $<span id="worksheetBase"></span></p>
 <p>Monthly Obligation: $<span id="worksheetMonthly"></span></p>
 
+</section>
 
     <script src="index.js"></script>
    <script>

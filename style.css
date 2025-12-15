@@ -34,3 +34,24 @@ a {
     margin-bottom: 1rem;
 }
 
+.worksheetContainer {
+    display: grid;
+    grid-template-columns: 55% 15% 15% 15%;
+    grid-template-rows: repeat(18, 1fr);
+    grid-gap: 5px;
+   
+}
+.item {
+    border: 10px solid black;
+
+}
+table.worksheet {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table.worksheet th,
+table.worksheet td {
+  border: 1px solid #000;
+  padding: 6px 10px;
+}
