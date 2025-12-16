@@ -2,11 +2,12 @@
 body {
     box-sizing: border-box;
     font-size:larger;
-    background: radial-gradient(rgb(146, 146, 247));
+    background-color: rgb(151, 151, 241)
 }
 input {
-    background-color: rgb(219, 190, 153);
+    background-color:  rgb(219, 190, 153);
     margin-bottom: 10px;
+
   
 /* creating more space between the inputs on page 1, but not on page 2*/
 }
@@ -20,11 +21,13 @@ input {
 }
 
 button {
-    background-color: rgb(219, 190, 153);
-   
+    background-color: rgb(243, 239, 212);
+    padding: .5em;
 }
+
+
 footer {
-    position: fixed;
+    
     bottom: 0;
 }
 
@@ -32,12 +35,8 @@ a {
     display: block;
     width: 100%;
     margin-bottom: 1rem;
+}
 
-}
-tableworksheet {
-  border-collapse: collapse;
-  width: 100%;
-}
 
 table.worksheet th,
 table.worksheet td {
@@ -77,6 +76,7 @@ table.worksheet td {
    height: 2em;
       
 }
+
 #item1{
     margin-right: 5rem;
     

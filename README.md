@@ -29,9 +29,9 @@ The statutory scheme for determining child support obligations under Kentucky la
 |-------------|----------------|
 | **Integrate an API** | • After creating a googlesheet that reflects that child support guidelines enumerated in the statute, enabled API, obtained API key but restricted it to this page referrer so that it could be displayed in javascript without being abused by others <br>•  |
 | **Responsive Design** | • Implemented responsive layouts using Flexbox<br>• Created media queries for different screen sizes<br>• Built with mobile-first approach |
-| **More than two pages/routes** | • Created a comprehensive workout database using JavaScript objects<br>• Organized exercises in categorized arrays (push/pull/legs) |
-| **Function that accepts 2 parameters and returns a value determined by the inputs** | • Examples are the functions that find the correct column based on number of children and find the correct row based upon the calculated combined income to return the value in the intersecting cell |
-| **Visually Appealing** | • Utilized CSS and flexbox/grid to display the results in clearly defined and easy to read manner |
+| **More than two pages/routes** | • There are 3 pages and also a rout to another page that will display the full statute with the guidelines amounts being drawn from |
+| **Function that accepts 2 parameters and returns a value determined by the inputs** | • Examples are the functions that find the correct column based on number of children and find the correct row based upon the calculated combined income to return the value in the intersecting cell • Also, a switch statement is used to implement rules on timesharing credit entitlements.
+| **Visually Appealing** | • Utilized table in html and css to display the results in clearly defined and easy to read manner |
 | **Calculate and display data based on an external factor** | •The external factor is the base obligation obtained from the API, and the amount it returns is used for further calculations to allocate the amount based on percentages previously determined.  |
 
 
