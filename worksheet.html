@@ -8,10 +8,22 @@
 </head>
 <body>
 
-    <p>Custodian A Name: <span id="worksheetCustA"></span>    Custodian B Name:<span id="worksheetCustB"></span>
-  <p>IVD#, if applicable:</p> <p>Court Case #</p>  <p>County</p>
-  <p>Number of Children in this Guideline Calculation: <span id="worksheetKids"></span></p></p>
-        <table class="worksheet">
+  <section id="heading-container" class="heading-container">
+  <div id="line1-container" class="container">
+    <p id="item1">CustodianA Name:&nbsp;&nbsp;&nbsp; <span class="underline" id="worksheetCustA"></span></p>    
+    <p id="item2">CustodianB Name:&nbsp;&nbsp;&nbsp;&nbsp;<span class="underline" id="worksheetCustB"></span></p>
+  </div>
+  <div id="line2-container" class="container">
+    <p>IVD#, if applicable: &nbsp;&nbsp;&nbsp;&nbsp;<span class="underline"></span></p> 
+    <p>Court Case #&nbsp;&nbsp;&nbsp;&nbsp;<span class="underline"></span></p>
+    <p>County&nbsp;&nbsp;&nbsp;&nbsp;<span class="underline"></span></p>
+   </div>
+
+    <p id="line3">Number of Children in this Guideline Calculation: &nbsp;&nbsp;&nbsp;&nbsp;<span class="underline-short" id="worksheetKids"></span></p></p>
+  
+  </section>
+  <Section id="table-container" class="table-container">
+  <table class="worksheet">
   <thead>
     <tr>
       <th></th>
@@ -107,7 +119,7 @@
     </tr>
   </tbody>
 </table>
-
+</Section>
 
     <script src="index.js"></script>
    <script>
