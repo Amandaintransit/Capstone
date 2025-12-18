@@ -420,7 +420,9 @@ function loadWorksheet() {
   setMoney("worksheetBase", localStorage.getItem("baseObligation"));
   setMoney("worksheetMonthly", localStorage.getItem("monthlyObligation"));
 }
-
+function handleCaringChildUnder3Toggle(){
+  
+}
 
 
 function handleDeductionsAToggle(){
