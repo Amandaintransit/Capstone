@@ -253,22 +253,67 @@ console.log("Raw cell value =", values[incomeRow]?.[childCol]);
 
   function calculateFinalObligation(){
      const timesharingInput = document.getElementById("timesharingB");
-
      const timesharingDays = Number(timesharingInput?.value) || 0;
-     Number(document.getElementById("timesharingB").value);
-
+     
+    
     localStorage.setItem("timesharingB", timesharingDays);
 
-     const timesharingPercent = timesharingDays/365;
+    let multiplier;
+
+        switch (true){
+          case timesharingDays <73:
+            multiplier = 1;
+            break;
+          case timesharingDays >= 73 && timesharingDays <=87:
+            multiplier = .105;
+            break;
+          case timesharingDays>=88 && timesharingDays<=115:
+            multiplier = .15;
+            break;
+          case timesharingDays >=116 && timesharingDays <=129:
+            multiplier =.205;
+            break;
+          case timesharingDays>=130 && timesharingDays<=142:
+            multiplier = .25;
+            break;
+          case timesharingDays>=143 && timesharingDays<=152:
+            multiplier = .305;
+            break;
+          case timesharingDays>=153 && timesharingDays <=162:
+            multiplier = .36;
+            break;
+          case timesharingDays>=163 && timesharingDays<=172:
+            multiplier = .42;
+            break;
+          case timesharingDays>=173 && timesharingDays<=181:
+            multiplier = .485;
+            break;
+          case timesharingDays>=182:
+            multiplier =.50;
+            break;
+          default:
+            multiplier = 1;
+        }
+      
+        const multiplierPercent = (multiplier * 100).toFixed(1) + "%";
+        localStorage.setItem("multiplier", multiplier);
+        localStorage.setItem("multiplierPercent", multiplierPercent);
+
+     document.getElementById("creditPercentage").textContent = multiplierPercent;
     
     const fullObligation = Number(localStorage.getItem("baseObligation"));
     const netDifB = Number(localStorage.getItem("differenceB"));
-    const credit = timesharingPercent * fullObligation;
-  
+    const multiplierCredit = localStorage.getItem("multiplier")
+    const credit = multiplier * netDifB;
+            console.log(netDifB);
+            console.log(multiplierCredit);
+            console.log(credit);
+
     const monthlyObligation = netDifB - credit;
     
     localStorage.setItem("monthlyObligation", monthlyObligation)
-if (monthlyObligation <0){
+    
+    if (monthlyObligation <0){
   document.getElementById("monthlyObligation").textContent = `Your monthly child support obligation will be $ ${Math.abs(monthlyObligation.toFixed(2))}`;  
 }
 else {
@@ -329,12 +374,12 @@ function setPercent(id, value) {
 
 function loadWorksheet() {
 
-  // ---- Basic info ----
+  
   setText("worksheetCustA", localStorage.getItem("custodianA"));
   setText("worksheetCustB", localStorage.getItem("custodianB"));
   setText("worksheetKids", localStorage.getItem("numberOfChildren"));
 
-  // ---- Custodian A ----
+ 
   setMoney("worksheetGrossA", localStorage.getItem("grossIncomeA"));
   setMoney("worksheetMaintenanceA", localStorage.getItem("maintenanceDeductionA"));
   setMoney("worksheetChildDeductionA", localStorage.getItem("priorbornChildDeductionA"));
@@ -342,7 +387,7 @@ function loadWorksheet() {
   setMoney("worksheetInsurancePremiumA", localStorage.getItem("healthInsurancePremiumA"));
   setMoney("worksheetChildcareA", localStorage.getItem("childCareCostsA"));
 
-  // ---- Custodian B ----
+ 
   setMoney("worksheetGrossB", localStorage.getItem("grossIncomeB"));
   setMoney("worksheetMaintenanceB", localStorage.getItem("maintenanceDeductionB"));
   setMoney("worksheetChildDeductionB", localStorage.getItem("priorbornChildDeductionB"));
@@ -350,11 +395,10 @@ function loadWorksheet() {
   setMoney("worksheetInsurancePremiumB", localStorage.getItem("healthInsurancePremiumB"));
   setMoney("worksheetChildcareB", localStorage.getItem("childCareCostsB"));
 
-  // ---- Percentages ----
+ 
   setPercent("worksheetPercentA", localStorage.getItem("percentageCustA"));
   setPercent("worksheetPercentB", localStorage.getItem("percentageCustB"));
-
-  // ---- Obligations ----
+  
   setMoney("worksheetOblA", localStorage.getItem("obligationA"));
   setMoney("worksheetOblB", localStorage.getItem("obligationB"));
 
@@ -366,14 +410,64 @@ function loadWorksheet() {
     "worksheetTimesharingB",
     Number(localStorage.getItem("timesharingB")) || 0
   );
+  setText(
+      "worksheetMultiplierPercentB", 
+      localStorage.getItem("multiplierPercent")) || "0%";
+ 
 
-  // ---- Totals ----
+  
   setMoney("worksheetCombined", localStorage.getItem("combinedIncome"));
   setMoney("worksheetBase", localStorage.getItem("baseObligation"));
   setMoney("worksheetMonthly", localStorage.getItem("monthlyObligation"));
 }
 
 
+
+function handleDeductionsAToggle(){
+    const yesChecked = document.getElementById("deductionsAYes").checked;
+    const container = document.getElementById("deductionsAContainer");
+
+    if(yesChecked) {
+      container.style.display = "block";
+    } else {
+      container.style.display = "none";
+
+    document.getElementById("maintenanceDeductionA").value = 0;
+    document.getElementById("priorbornChildDeductionA").value = 0;
+    }
+}
+  function handleDeductionsBToggle(){
+    const yesChecked = document.getElementById("deductionsBYes").checked;
+    const container = document.getElementById("deductionsBContainer");
+
+    if(yesChecked) {
+      container.style.display = "block";
+    } else {
+      container.style.display = "none";
+
+    document.getElementById("maintenanceDeductionB").value = 0;
+    document.getElementById("priorbornChildDeductionB").value = 0;
+    }
+}
+
+/*function savePageTwo() {
+  const requiredKeys = [
+    "combinedIncome",
+    "baseObligation",
+    "monthlyObligation"
+  ];
+
+  for (const key of requiredKeys) {
+    if (!localStorage.getItem(key)) {
+      alert("Please complete all calculations before continuing.");
+      return;
+    }
+  }
+
+  window.location.href = "worksheet.html";
+}
+
+*/
  /*   
  function loadWorksheet() {
   const custA = localStorage.getItem("custodianA");
@@ -451,49 +545,4 @@ function loadWorksheet() {
     document.getElementById("worksheetMonthly").textContent = Number(monthlyObligation).toFixed(2);
   }
 }
-*/
-function handleDeductionsAToggle(){
-    const yesChecked = document.getElementById("deductionsAYes").checked;
-    const container = document.getElementById("deductionsAContainer");
-
-    if(yesChecked) {
-      container.style.display = "block";
-    } else {
-      container.style.display = "none";
-
-    document.getElementById("maintenanceDeductionA").value = 0;
-    document.getElementById("priorbornChildDeductionA").value = 0;
-    }
-}
-  function handleDeductionsBToggle(){
-    const yesChecked = document.getElementById("deductionsBYes").checked;
-    const container = document.getElementById("deductionsBContainer");
-
-    if(yesChecked) {
-      container.style.display = "block";
-    } else {
-      container.style.display = "none";
-
-    document.getElementById("maintenanceDeductionB").value = 0;
-    document.getElementById("priorbornChildDeductionB").value = 0;
-    }
-}
-
-/*function savePageTwo() {
-  const requiredKeys = [
-    "combinedIncome",
-    "baseObligation",
-    "monthlyObligation"
-  ];
-
-  for (const key of requiredKeys) {
-    if (!localStorage.getItem(key)) {
-      alert("Please complete all calculations before continuing.");
-      return;
-    }
-  }
-
-  window.location.href = "worksheet.html";
-}
-
 */
