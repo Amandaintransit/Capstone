@@ -2,7 +2,7 @@
 
 https://amandaintransit.github.io/Capstone/
 
-<img src="images/FirstPage.jpeg" alt="first page of KY Child Support Obligation Estimator"/>
+
 
 Overview:
 
