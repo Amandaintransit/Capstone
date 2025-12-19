@@ -19,6 +19,20 @@
                 <label>Monthly Gross Income:</label> 
                 <input type="number" name="grossIncomeA" id="grossIncomeA">
             </div>
+            <div id="childUnder3AContainer" style="display:none; margin-top:6px;">
+  <p><strong>Are you caring for a child under 3 years of age?</strong></p>
+
+  <label>
+    <input type="radio" name="childUnder3A" value="yes">
+    Yes
+  </label>
+
+  <label style="margin-left:12px;">
+    <input type="radio" name="childUnder3A" value="no">
+    No
+  </label>
+</div>
+
             <div>
                 <label>Are you court ordered to pay maintenance to a former spouse or child support for a prior-born child(ren)?</label>
                  Yes <input type="radio" name="deductionsA" value="yes" id="deductionsAYes" onclick="handleDeductionsAToggle()"> 
@@ -55,6 +69,20 @@
             <label for="grossIncomeB">Monthly Gross Income:</label> 
             <input type="number" name="grossIncomeB" id="grossIncomeB">
             </div>   
+          <div id="childUnder3BContainer" style="display:none; margin-top:6px;">
+  <p><strong>Is the other custodian caring for a child under 3 years of age?</strong></p>
+
+  <label>
+    <input type="radio" name="childUnder3B" value="yes">
+    Yes
+  </label>
+
+  <label style="margin-left:12px;">
+    <input type="radio" name="childUnder3B" value="no">
+    No
+  </label>
+</div>
+  
              <div>
                 <label>Is <span id="CustBDeductions"></span> court ordered to pay maintenance to a former spouse or child support for a prior-born child(ren)?</label>
                  Yes <input type="radio" name="deductionsB" value="yes" id="deductionsBYes" onclick="handleDeductionsBToggle()"> 

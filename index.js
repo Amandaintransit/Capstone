@@ -1,4 +1,6 @@
 
+
+
 function saveFirstPage() {
   
     let custA = document.getElementById("custodianA").value;
@@ -34,9 +36,85 @@ let numOfChildren = localStorage.getItem("numberOfChildren");
         document.getElementById("OtherCustodian").textContent = cusB;
         document.getElementById("CustBDeductions").textContent = cusB;
   }
+
+
+
+const minWage = 1256;
+
+
+function enforceMinimumWageWithRadios({
+  inputId,
+  radioName,
+  containerId,
+  storageKey,
+  recalcFn
+}) {
+  const inputEl = document.getElementById(inputId);
+  const container = document.getElementById(containerId);
+
+  if (!inputEl || !container) return;
+
+  inputEl.addEventListener("change", () => {
+    const value = Number(inputEl.value);
+
+    if (!value || isNaN(value)) return;
+
+    if (value < minWage) {
+      container.style.display = "block";
+    } else {
+      container.style.display = "none";
+      clearRadios(radioName);
+    }
+  });
+
+  document.querySelectorAll(`input[name="${radioName}"]`).forEach(radio => {
+    radio.addEventListener("change", () => {
+      if (radio.value === "no") {
+        alert(
+          "Unless caring for a child under 3 years old, Minimum wage at full time of $1,256 must be imputed and used in the calculations."
+        );
+
+        inputEl.value = minWage;
+        localStorage.setItem(storageKey, minWage);
+
+        container.style.display = "none";
+        clearRadios(radioName);
+        recalcFn();
+      } else {
+        // YES selected — store for record if you want
+        localStorage.setItem(`${storageKey}_childUnder3`, "yes");
+      }
+    });
+  });
+}
+
+function clearRadios(name) {
+  document.querySelectorAll(`input[name="${name}"]`).forEach(r => r.checked = false);
+}
+document.addEventListener("DOMContentLoaded", () => {
+  enforceMinimumWageWithRadios({
+    inputId: "grossIncomeA",
+    radioName: "childUnder3A",
+    containerId: "childUnder3AContainer",
+    storageKey: "grossIncomeA",
+    recalcFn: calculateAdjustedGrossIncomeA
+  });
+
+  enforceMinimumWageWithRadios({
+    inputId: "grossIncomeB",
+    radioName: "childUnder3B",
+    containerId: "childUnder3BContainer",
+    storageKey: "grossIncomeB",
+    recalcFn: calculateAdjustedGrossIncomeB
+  });
+});
+
+
+
 /*calculate AGI for custodian A*/
 function calculateAdjustedGrossIncomeA() {
     let grossA = Number(document.getElementById("grossIncomeA").value);
+
     let maintenanceA = Number(document.getElementById("maintenanceDeductionA").value);
     let priorChildDeductionA = Number(document.getElementById("priorbornChildDeductionA").value);
     
@@ -75,8 +153,47 @@ function calculateAdjustedGrossIncomeB() {
     }
      localStorage.setItem('adjustedGrossIncomeB', adjustedGrossIncomeB);
     return adjustedGrossIncomeB;
-
 }
+    function getSelfSupportThreshold(numChildren) {
+  if (numChildren === 1) return 1100;
+  if (numChildren === 2) return 1300;
+  if (numChildren === 3) return 1400;
+  if (numChildren === 4 || numChildren === 5) return 1500;
+  if (numChildren >= 6) return 1600;
+  return Infinity;
+}
+
+async function calculateSelfSupportObligationB() {
+  const agiB = Number(localStorage.getItem("adjustedGrossIncomeB"));
+  const numChildren = Number(localStorage.getItem("numberOfChildren"));
+
+  const threshold = getSelfSupportThreshold(numChildren);
+
+
+  if (agiB > threshold) return null;
+  
+
+  
+  const values = await accessChildSupportTable();
+
+  const childCol = findChildColumn(values, numChildren);
+  const incomeRow = findIncomeRow(values, agiB);
+
+  const rawAmount = values[incomeRow][childCol];
+  const baseSSR = Number(String(rawAmount).replace(/,/g, ""));
+
+  
+  const multiplier = Number(localStorage.getItem("multiplier")) || 1;
+  const credit = multiplier * baseSSR;
+
+  const ssrObligation = baseSSR - credit;
+
+  localStorage.setItem("selfSupportObligationB", ssrObligation);
+
+  return ssrObligation;
+}
+
+
 function calculateCombinedIncome() {
   
   const agiA = Number(localStorage.getItem("adjustedGrossIncomeA"));
@@ -251,7 +368,7 @@ console.log("Raw cell value =", values[incomeRow]?.[childCol]);
       return differenceB;
   }
 
-  function calculateFinalObligation(){
+  async function calculateFinalObligation(){
      const timesharingInput = document.getElementById("timesharingB");
      const timesharingDays = Number(timesharingInput?.value) || 0;
      
@@ -313,13 +430,29 @@ console.log("Raw cell value =", values[incomeRow]?.[childCol]);
     
     localStorage.setItem("monthlyObligation", monthlyObligation)
     
-    if (monthlyObligation <0){
-  document.getElementById("monthlyObligation").textContent = `Your monthly child support obligation will be $ ${Math.abs(monthlyObligation.toFixed(2))}`;  
-}
-else {
-  document.getElementById("monthlyObligation").textContent = `You should receive monthly child support of $ ${monthlyObligation.toFixed(2)}`; 
-}
-      return monthlyObligation;
+    const normalFinal = Number(localStorage.getItem("monthlyObligation"))
+    const ssrFinal = await calculateSelfSupportObligationB();
+    let finalAmount = normalFinal;
+    
+    if(ssrFinal !== null){
+      finalAmount = Math.min(normalFinal, ssrFinal);
+      localStorage.setItem("selfSupportApplied", "yes");
+    } else {
+      localStorage.setItem("selfSupportApplied", "no");
+    }
+   
+    localStorage.setItem("finalMonthlyObligation", finalAmount);
+    const output = document.getElementById("monthlyObligation");
+    if (!output) return finalAmount;
+
+    if(finalAmount < 0) {
+      output.textContent =
+      `Your monthly child support obligation will be $ ${Math.abs(finalAmount.toFixed(2))}`;
+    }else {
+      output.textContent = 
+      `You should receive monthly child support of $ ${finalAmount.toFixed(2)}`;
+    }
+    return finalAmount;
 
   }
 
@@ -420,9 +553,6 @@ function loadWorksheet() {
   setMoney("worksheetBase", localStorage.getItem("baseObligation"));
   setMoney("worksheetMonthly", localStorage.getItem("monthlyObligation"));
 }
-function handleCaringChildUnder3Toggle(){
-  
-}
 
 
 function handleDeductionsAToggle(){
@@ -451,7 +581,7 @@ function handleDeductionsAToggle(){
     document.getElementById("priorbornChildDeductionB").value = 0;
     }
 }
-
+  
 /*function savePageTwo() {
   const requiredKeys = [
     "combinedIncome",
