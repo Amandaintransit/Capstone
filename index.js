@@ -310,6 +310,7 @@ console.log("Raw cell value =", values[incomeRow]?.[childCol]);
 
       localStorage.setItem("baseObligation", amount);
 
+   
       return amount;
    }
    function percentageToObligationA(){
@@ -418,7 +419,7 @@ console.log("Raw cell value =", values[incomeRow]?.[childCol]);
 
      document.getElementById("creditPercentage").textContent = multiplierPercent;
     
-    const fullObligation = Number(localStorage.getItem("baseObligation"));
+   
     const netDifB = Number(localStorage.getItem("differenceB"));
     const multiplierCredit = localStorage.getItem("multiplier")
     const credit = multiplier * netDifB;
@@ -506,6 +507,12 @@ function setPercent(id, value) {
 }
 
 function loadWorksheet() {
+
+  const baseObligation = Number(localStorage.getItem("baseObligation")) || 0;
+document.getElementById("baseAmount").textContent = `$${baseObligation.toFixed(2)}`;
+
+const ssrApplied = localStorage.getItem("selfSupportApplied") === "yes";
+document.getElementById("ssrCheckbox").checked = ssrApplied;
 
   
   setText("worksheetCustA", localStorage.getItem("custodianA"));
